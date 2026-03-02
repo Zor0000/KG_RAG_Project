@@ -1,0 +1,594 @@
+[
+  {
+    "user": "shobhit",
+    "query": "how can i design a hr portal",
+    "tools": [
+      "Microsoft Copilot Studio"
+    ],
+    "labs": [
+      "\nCustom Lab Suggestion:\n1. Identify business use case from: \"how can i design a hr portal\"\n2. Use Microsoft Copilot Studio to create copilot.\n3. Integrate Power Automate workflow.\n4. Store data in Dataverse.\n5. Test real-world scenario.\n"
+    ],
+    "timestamp": "2026-02-19 16:50:36.914687"
+  },
+  {
+    "user": "shobhit",
+    "query": "How would you deploy Copilot Studio across finance and HR while preventing cross-department data leakage?",
+    "tools": [
+      "Microsoft Copilot Studio"
+    ],
+    "labs": [
+      "\nCustom Lab Suggestion:\n1. Identify business use case from: \"How would you deploy Copilot Studio across finance and HR while preventing cross-department data leakage?\"\n2. Use Microsoft Copilot Studio to create copilot.\n3. Integrate Power Automate workflow.\n4. Store data in Dataverse.\n5. Test real-world scenario.\n"
+    ],
+    "timestamp": "2026-02-19 16:51:31.804336"
+  },
+  {
+    "user": "shobhit",
+    "query": "hr portal",
+    "tools": [
+      "Microsoft Copilot Studio",
+      "Power Automate",
+      "Dataverse"
+    ],
+    "labs": [
+      "Build HR FAQ Copilot",
+      "Employee Onboarding Automation",
+      "Attendance Dashboard App"
+    ],
+    "timestamp": "2026-02-20 12:53:29.660110"
+  },
+  {
+    "user": "shobhit",
+    "query": "Automate employee approval workflows using Microsoft tools.",
+    "tools": [
+      "Microsoft Copilot Studio",
+      "Power Automate",
+      "Dataverse"
+    ],
+    "labs": [
+      "Build HR FAQ Copilot",
+      "Employee Onboarding Automation",
+      "Attendance Dashboard App"
+    ],
+    "timestamp": "2026-02-20 13:44:03.725305"
+  },
+  {
+    "user": "shobhit",
+    "query": "How would you design a scalable HR Copilot portal using Copilot Studio, Dataverse, and Power Automate while ensuring security compliance?",
+    "tools": [
+      "Microsoft Copilot Studio",
+      "Power Automate",
+      "Dataverse"
+    ],
+    "labs": [
+      "\nCustom Lab Suggestion:\n\n1. Identify business use case from:\n   \"How would you design a scalable HR Copilot portal using Copilot Studio, Dataverse, and Power Automate while ensuring security compliance?\"\n\n2. Create Copilot using Microsoft Copilot Studio\n3. Automate workflow using Power Automate\n4. Store enterprise data in Dataverse\n5. Test with real-world enterprise scenario\n"
+    ],
+    "timestamp": "2026-02-20 18:44:58.131998"
+  },
+  {
+    "user": "shobhit",
+    "query": "docs = search_milvus(rewritten)",
+    "tools": [
+      "Microsoft Copilot Studio"
+    ],
+    "labs": [
+      "\nCustom Lab Suggestion:\n\n1. Identify business use case from:\n   \"docs = search_milvus(rewritten)\"\n\n2. Create Copilot using Microsoft Copilot Studio\n3. Automate workflow using Power Automate\n4. Store enterprise data in Dataverse\n5. Test with real-world enterprise scenario\n"
+    ],
+    "timestamp": "2026-02-20 19:38:10.786832"
+  },
+  {
+    "user": "shobhit",
+    "query": "",
+    "tools": [
+      "Microsoft Copilot Studio"
+    ],
+    "labs": [
+      "\nCustom Lab Suggestion:\n\n1. Identify business use case from:\n   \"\"\n\n2. Create Copilot using Microsoft Copilot Studio\n3. Automate workflow using Power Automate\n4. Store enterprise data in Dataverse\n5. Test with real-world enterprise scenario\n"
+    ],
+    "timestamp": "2026-02-20 19:38:17.612878"
+  },
+  {
+    "user": "shobhit",
+    "query": "How would you design an enterprise HR copilot in Copilot Studio with secure authentication, workflow automation, and employee onboarding labs?",
+    "tools": [
+      "Microsoft Copilot Studio",
+      "Power Automate",
+      "Dataverse"
+    ],
+    "labs": [
+      "\nCustom Lab Suggestion:\n\n1. Identify business use case from:\n   \"How would you design an enterprise HR copilot in Copilot Studio with secure authentication, workflow automation, and employee onboarding labs?\"\n\n2. Create Copilot using Microsoft Copilot Studio\n3. Automate workflow using Power Automate\n4. Store enterprise data in Dataverse\n5. Test with real-world enterprise scenario\n"
+    ],
+    "timestamp": "2026-02-20 19:39:27.386011"
+  },
+  {
+    "user": "shobhit",
+    "query": "How does Power Automate work?",
+    "tools": [],
+    "labs": [],
+    "timestamp": "2026-02-20 20:06:29.870161"
+  },
+  {
+    "user": "shobhit",
+    "query": "How do I build HR copilot?",
+    "tools": [
+      "Microsoft Copilot Studio",
+      "Power Automate",
+      "Dataverse"
+    ],
+    "labs": [
+      "\nCustom Lab Suggestion:\n\n1. Identify business use case from:\n   \"How do I build HR copilot?\"\n\n2. Create Copilot using Microsoft Copilot Studio\n3. Automate workflow using Power Automate\n4. Store enterprise data in Dataverse\n5. Test with real-world enterprise scenario\n"
+    ],
+    "timestamp": "2026-02-20 20:07:20.337055"
+  },
+  {
+    "user": "shobhit",
+    "query": "How do I design and deploy an HR Copilot in Copilot Studio with authentication, automated onboarding workflow, and what labs can help me implement this?",
+    "tools": [
+      "Microsoft Copilot Studio",
+      "Power Automate",
+      "Dataverse"
+    ],
+    "labs": [
+      "\nCustom Lab Suggestion:\n\n1. Identify business use case from:\n   \"How do I design and deploy an HR Copilot in Copilot Studio with authentication, automated onboarding workflow, and what labs can help me implement this?\"\n\n2. Create Copilot using Microsoft Copilot Studio\n3. Automate workflow using Power Automate\n4. Store enterprise data in Dataverse\n5. Test with real-world enterprise scenario\n"
+    ],
+    "timestamp": "2026-02-20 22:57:36.467504"
+  },
+  {
+    "user": "shobhit",
+    "query": "how can i design a hr poratl using microsft copilti studiso",
+    "tools": [
+      "Microsoft Copilot Studio",
+      "Power Automate",
+      "Dataverse"
+    ],
+    "labs": [
+      "\nCustom Lab Suggestion:\n\n1. Identify business use case from:\n   \"how can i design a hr poratl using microsft copilti studiso\"\n\n2. Create Copilot using Microsoft Copilot Studio\n3. Automate workflow using Power Automate\n4. Store enterprise data in Dataverse\n5. Test with real-world enterprise scenario\n"
+    ],
+    "timestamp": "2026-02-23 13:35:59.020076"
+  },
+  {
+    "user": "shobhit",
+    "query": "what is the billing cycle ",
+    "tools": [],
+    "labs": [],
+    "timestamp": "2026-02-23 13:36:44.993097"
+  },
+  {
+    "user": "shobhit",
+    "query": "Is there a Copilot Studio lab to build an HR onboarding assistant?",
+    "tools": [
+      "Microsoft Copilot Studio",
+      "Power Automate",
+      "Dataverse"
+    ],
+    "labs": [
+      "\nCustom Lab Suggestion:\n\n1. Identify business use case from:\n   \"Is there a Copilot Studio lab to build an HR onboarding assistant?\"\n\n2. Create Copilot using Microsoft Copilot Studio\n3. Automate workflow using Power Automate\n4. Store enterprise data in Dataverse\n5. Test with real-world enterprise scenario\n"
+    ],
+    "timestamp": "2026-02-23 16:55:55.299528"
+  },
+  {
+    "user": "shobhit",
+    "query": "Is there a Copilot Studio lab to build an HR onboarding assistant?",
+    "tools": [
+      "Microsoft Copilot Studio"
+    ],
+    "labs": [
+      "Labs \nhttps://pratapladhani.github.io/mcs-labs/labs/",
+      "Architecture Bootcamp \nhttps://pratapladhani.github.io/mcs-labs/labs/bootcamp/",
+      "Copilot Studio Agent Academy - Recruit Level \nhttps://pratapladhani.github.io/mcs-labs/labs/agent-academy-recruit/"
+    ],
+    "timestamp": "2026-02-23 17:35:58.115505"
+  },
+  {
+    "user": "shobhit",
+    "query": " Is there a Copilot Studio lab to build an HR onboarding assistant?",
+    "tools": [
+      "Microsoft Copilot Studio"
+    ],
+    "labs": [
+      "\ud83d\udcd8 Labs\n\nWhat you'll learn:\nLabs \u2715 Clear Filter All Labs Browse all available Microsoft Copilot Studio labs. Choose individual labs or follow our learning journeys for a guided experience. Filter by Journey Click a filter to apply it, click again to show all labs \ud83d\ude80 Quick Start Journey \ud83e\udd16 Autonomous AI Journey \ud83d\udd27 Developer Journey \ud83d\udcbc Business User Journey...\n\n\ud83d\udd17 https://pratapladhani.github.io/mcs-labs/labs/\n",
+      "\ud83d\udcd8 Architecture Bootcamp\n\nWhat you'll learn:\nBack to All Labs \u2694\ufe0f Architecture Bootcamp Intensive hands-on bootcamp covering progressive AI assistants, ALM best practices, autonomous agents, and advanced data integration with MCP and Fabric. \ud83d\udcca Difficulty: Level 0 to 0 \u23f1\ufe0f Estimated Time: 4.8 hours \ud83d\udcda Total Labs: 9 labs (285 min) 1 Build Progressive AI Assistants with Agent Builder in Microsoft...\n\n\ud83d\udd17 https://pratapladhani.github.io/mcs-labs/labs/bootcamp/\n",
+      "\ud83d\udcd8 Copilot Studio Agent Academy - Recruit Level\n\nWhat you'll learn:\nAcademy - Recruit Level | Microsoft Copilot Studio Labs View All Event Labs \u2192 Copilot Studio Agent Academy - Recruit Level \u23f1\ufe0f 240 minutes \ud83d\udcca Level 200 \ud83c\udff7\ufe0f External Comprehensive 13-lesson curriculum covering agents, LLMs, declarative & custom agents, Topics, Adaptive Cards, Agent Flows, and deployment to Teams and Microsoft 365 Copilot \ud83c\udf10 External Repository...\n\n\ud83d\udd17 https://pratapladhani.github.io/mcs-labs/labs/agent-academy-recruit/\n"
+    ],
+    "timestamp": "2026-02-23 18:00:46.621848"
+  },
+  {
+    "user": "shobhit",
+    "query": "Is there a Copilot Studio lab to build an HR onboarding assistant?",
+    "tools": [
+      "Microsoft Copilot Studio"
+    ],
+    "labs": [
+      "\n\ud83d\udcd8 Labs Labs Current\n\nWhy this lab:\nHelps you implement real Copilot Studio\nenterprise scenarios based on your question.\n\nWhat you'll learn:\n\u2022 Copilot agent building\n\u2022 Enterprise workflow automation\n\u2022 Data integration & governance\n\u2022 Deployment best practices\n\n\ud83d\udd17 Lab Link:\nhttps://pratapladhani.github.io/mcs-labs/labs/\n",
+      "\n\ud83d\udcd8 Architecture Bootcamp Architecture\n\nWhy this lab:\nHelps you implement real Copilot Studio\nenterprise scenarios based on your question.\n\nWhat you'll learn:\n\u2022 Copilot agent building\n\u2022 Enterprise workflow automation\n\u2022 Data integration & governance\n\u2022 Deployment best practices\n\n\ud83d\udd17 Lab Link:\nhttps://pratapladhani.github.io/mcs-labs/labs/bootcamp/\n",
+      "\n\ud83d\udcd8 Copilot Studio Agent\n\nWhy this lab:\nHelps you implement real Copilot Studio\nenterprise scenarios based on your question.\n\nWhat you'll learn:\n\u2022 Copilot agent building\n\u2022 Enterprise workflow automation\n\u2022 Data integration & governance\n\u2022 Deployment best practices\n\n\ud83d\udd17 Lab Link:\nhttps://pratapladhani.github.io/mcs-labs/labs/agent-academy-recruit/\n"
+    ],
+    "timestamp": "2026-02-23 18:06:01.475372"
+  },
+  {
+    "user": "shobhit",
+    "query": "Is there a Copilot Studio lab to build an HR onboarding assistant?",
+    "tools": [
+      "Microsoft Copilot Studio"
+    ],
+    "labs": [
+      "\n\ud83d\udcd8 Architecture Bootcamp\n\nWhy this lab:\nThis lab directly helps implement your requested Copilot scenario.\n\nWhat you'll learn:\n\u2022 Architecture Bootcamp |  Architecture Bootcamp |  \u2190 Back to All Labs \u2694\ufe0f Architecture Bootcamp Intensive hands-on bootcamp covering progressive AI assistants, ALM best practices, autonomous agents, and advanced data integration with MCP and Fabric\n\u2022 Agent configuration\n\u2022 Enterprise workflow automation\n\u2022 Deployment and governance practices\n\n\ud83d\udd17 Lab Link:\nhttps://pratapladhani.github.io/mcs-labs/labs/bootcamp/\n",
+      "\n\ud83d\udcd8 Copilot Studio Agent Academy - Recruit\n\nWhy this lab:\nThis lab directly helps implement your requested Copilot scenario.\n\nWhat you'll learn:\n\u2022 Copilot Studio Agent Academy - Recruit Level |  Copilot Studio Agent Academy - Recruit Level |  View All Event Labs \u2192 Copilot Studio Agent Academy - Recruit Level \u23f1\ufe0f 240 minutes \ud83d\udcca Level 200 \ud83c\udff7\ufe0f External Comprehensive 13-lesson curriculum covering agents, LLMs, declarative & custom agents, Topics, Adaptive Cards, Agent Flows, and deployment to Teams and Microsoft 365 Copilot \ud83c\udf10 External Repository This lab is hosted in an external repository\n\u2022 Agent configuration\n\u2022 Enterprise workflow automation\n\u2022 Deployment and governance practices\n\n\ud83d\udd17 Lab Link:\nhttps://pratapladhani.github.io/mcs-labs/labs/agent-academy-recruit/\n"
+    ],
+    "timestamp": "2026-02-23 18:11:56.358270"
+  },
+  {
+    "user": "shobhit",
+    "query": "Is there a Copilot Studio lab to build an HR onboarding assistant?",
+    "tools": [],
+    "labs": [
+      "\u2022 Architecture Bootcamp     \u2694\ufe0f Architecture Bootcamp Intensive hands-on bootcamp covering progressive AI assistants, ALM best practices, autonomous agents, and advanced data integration with MCP and Fabric\n\u2022 Lab Link: https://pratapladhani.github.io/mcs-labs/labs/bootcamp/"
+    ],
+    "timestamp": "2026-02-23 18:24:29.773454"
+  },
+  {
+    "user": "shobhit",
+    "query": "Is there a Copilot Studio lab to build an HR onboarding assistant?",
+    "tools": [],
+    "labs": [
+      "\u2022 Architecture Bootcamp     \u2694\ufe0f Architecture Bootcamp Intensive hands-on bootcamp covering progressive AI assistants, ALM best practices, autonomous agents, and advanced data integration with MCP and Fabric\n\u2022 Lab Link: https://pratapladhani.github.io/mcs-labs/labs/bootcamp/"
+    ],
+    "timestamp": "2026-02-23 18:29:04.372665"
+  },
+  {
+    "user": "shobhit",
+    "query": "Is there a Copilot Studio lab to build an HR onboarding assistant?",
+    "tools": [],
+    "labs": [
+      "\n\ud83d\udcda Suggested Lab\n\nIn this lab, you will learn:\n\n\u2022 Progressive ai assistants\n\u2022 Alm best practices\n\u2022 Autonomous agents\n\u2022 And advanced data integration with mcp and fabric.   difficulty  level 0 to 0    estimated time  4.8 hours   total labs  9 labs  285 min  1 build progressive ai assistants with agent builder in microsoft 365 build progressive ai assistants with agent builder in microsoft 365 beginner to intermediate    40 min   core start lab     download pdf 2 set yourself up for success   discover alm best practices set yourself up for success   discover alm best practices intermediate    35 min   intermediate start lab     download pdf 3 give your public website chatbot a brain and make it an agent give your public website chatbot a brain and make it an agent beginner    25 min   core start lab     download pdf 4 create an  ask me anything  agent for your employees  30 min version  create an  ask me anything  agent for your employees  30 min version  intermediate    30 min   optional start lab     download pdf 5 build an autonomous account news assistant agent build an autonomous account news assistant agent advanced    30 min   advanced start lab     download pdf 6 dataverse mcp connector dataverse mcp connector beginner    30 min   specialized start lab     download pdf 7 build an autonomous agent that uses computer use to retrieve data from legacy systems that lack api connectivity build an autonomous agent that uses computer use to retrieve data from legacy systems that lack api connectivity advanced    30 min   advanced start lab     download pdf 8 build a data fabric agent build a data fabric agent advanced    20 min   advanced start lab     download pdf 9 expense claims agent with approvals  human-in-the-loop  expense claims agent with approvals  human-in-the-loop  intermediate    45 min   intermediate start lab     download pdf\n\n\ud83d\udd17 Lab Link:\nhttps://pratapladhani.github.io/mcs-labs/labs/bootcamp/\n"
+    ],
+    "timestamp": "2026-02-23 18:32:48.474392"
+  },
+  {
+    "user": "shobhit",
+    "query": "Is there a Copilot Studio lab to build an HR onboarding assistant?",
+    "tools": [],
+    "labs": [
+      "\n\ud83d\udcda Suggested Lab\n\nIn this lab, you will learn:\n\n\u2022 Progressive ai assistants\n\u2022 Alm best practices\n\u2022 Autonomous agents\n\u2022 And advanced data integration with mcp and fabric\n\n\ud83d\udd17 Lab Link:\nhttps://pratapladhani.github.io/mcs-labs/labs/bootcamp/\n"
+    ],
+    "timestamp": "2026-02-23 18:37:40.658528"
+  },
+  {
+    "user": "shobhit",
+    "query": "how can i see the billing clycle",
+    "tools": [],
+    "labs": [],
+    "timestamp": "2026-02-23 18:39:21.615712"
+  },
+  {
+    "user": "shobhit",
+    "query": "How do I design scalable Copilot architecture?",
+    "tools": [],
+    "labs": [
+      "\n\ud83d\udcda Suggested Lab\n\nIn this lab, you will learn:\n\n\u2022 Progressive ai assistants\n\u2022 Alm best practices\n\u2022 Autonomous agents\n\u2022 And advanced data integration with mcp and fabric\n\n\ud83d\udd17 Lab Link:\nhttps://pratapladhani.github.io/mcs-labs/labs/bootcamp/\n"
+    ],
+    "timestamp": "2026-02-23 18:40:43.056632"
+  },
+  {
+    "user": "shobhit",
+    "query": "How do I design scalable Copilot architecture?",
+    "tools": [],
+    "labs": [
+      "\n\ud83d\udcda Lab Recommendation\n\n\ud83d\udd39 Title:\nArchitecture Bootcamp Microsoft Copilot Studio Labs Architecture Bootcamp Micros\n\n\ud83d\udd39 Why this lab:\nThis lab is recommended because it closely matches your query about 'How do I design scalable Copilot architecture?'. It provides practical guidance related to architecture bootcamp microsoft copilot studio labs architecture bootcamp micros.\n\n\ud83d\udd39 What you'll learn:\n\u2022 Progressive ai assistants\n\u2022 Alm best practices\n\u2022 Autonomous agents\n\u2022 And advanced data integration with mcp and fabric.   difficulty  level 0 to 0    estimated time  4.8 hours   total labs  9 labs  285 min  1 build progressive ai assistants with agent builder in microsoft 365 build progressive ai assistants with agent builder in microsoft 365 beginner to intermediate    40 min   core start lab     download pdf 2 set yourself up for success   discover alm best practices set yourself up for success   discover alm best practices intermediate    35 min   intermediate start lab     download pdf 3 give your public website chatbot a brain and make it an agent give your public website chatbot a brain and make it an agent beginner    25 min   core start lab     download pdf 4 create an  ask me anything  agent for your employees  30 min version  create an  ask me anything  agent for your employees  30 min version  intermediate    30 min   optional start lab     download pdf 5 build an autonomous account news assistant agent build an autonomous account news assistant agent advanced    30 min   advanced start lab     download pdf 6 dataverse mcp connector dataverse mcp connector beginner    30 min   specialized start lab     download pdf 7 build an autonomous agent that uses computer use to retrieve data from legacy systems that lack api connectivity build an autonomous agent that uses computer use to retrieve data from legacy systems that lack api connectivity advanced    30 min   advanced start lab     download pdf 8 build a data fabric agent build a data fabric agent advanced    20 min   advanced start lab     download pdf 9 expense claims agent with approvals  human-in-the-loop  expense claims agent with approvals  human-in-the-loop  intermediate    45 min   intermediate start lab     download pdf\n\n\ud83d\udd17 Lab Link:\nhttps://pratapladhani.github.io/mcs-labs/labs/bootcamp/\n"
+    ],
+    "timestamp": "2026-02-23 18:45:32.855242"
+  },
+  {
+    "user": "shobhit",
+    "query": "How do I design scalable Copilot architecture?",
+    "tools": [],
+    "labs": [
+      "\n\ud83d\udcda Lab Recommendation\n\n\ud83d\udd39 Title:\nArchitecture Bootcamp Microsoft Copilot Studio Labs Architecture Bootcamp Micros\n\n\ud83d\udd39 Why this lab:\nThis lab is recommended because it closely matches your query about 'How do I design scalable Copilot architecture?'. It provides practical guidance related to architecture bootcamp microsoft copilot studio labs architecture bootcamp micros.\n\n\ud83d\udd39 What you'll learn:\n\u2022 Progressive ai assistants\n\u2022 Alm best practices\n\u2022 Autonomous agents\n\u2022 And advanced data integration with mcp and fabric.   difficulty  level 0 to 0    estimated time  4.8 hours   total labs  9 labs  285 min  1 build progressive ai assistants with agent builder in microsoft 365 build progressive ai assistants with agent builder in microsoft 365 beginner to intermediate    40 min   core start lab     download pdf 2 set yourself up for success   discover alm best practices set yourself up for success   discover alm best practices intermediate    35 min   intermediate start lab     download pdf 3 give your public website chatbot a brain and make it an agent give your public website chatbot a brain and make it an agent beginner    25 min   core start lab     download pdf 4 create an  ask me anything  agent for your employees  30 min version  create an  ask me anything  agent for your employees  30 min version  intermediate    30 min   optional start lab     download pdf 5 build an autonomous account news assistant agent build an autonomous account news assistant agent advanced    30 min   advanced start lab     download pdf 6 dataverse mcp connector dataverse mcp connector beginner    30 min   specialized start lab     download pdf 7 build an autonomous agent that uses computer use to retrieve data from legacy systems that lack api connectivity build an autonomous agent that uses computer use to retrieve data from legacy systems that lack api connectivity advanced    30 min   advanced start lab     download pdf 8 build a data fabric agent build a data fabric agent advanced    20 min   advanced start lab     download pdf 9 expense claims agent with approvals  human-in-the-loop  expense claims agent with approvals  human-in-the-loop  intermediate    45 min   intermediate start lab     download pdf\n\n\ud83d\udd17 Lab Link:\nhttps://pratapladhani.github.io/mcs-labs/labs/bootcamp/\n"
+    ],
+    "timestamp": "2026-02-23 18:52:48.242927"
+  },
+  {
+    "user": "shobhit",
+    "query": "How do I design scalable Copilot architecture?",
+    "tools": [],
+    "labs": [
+      "\ud83d\udcda Lab Recommendation\n\n\ud83d\udd39 Title:\nDeliver high-quality, scalable agents with Copilot Studio Kit\n\n\ud83d\udd39 Why this lab:\nThis lab is relevant as it focuses on automating quality assurance for Copilot Studio agents, which is essential for designing scalable architecture. It addresses common challenges in ensuring consistent and reliable agent performance.\n\n\ud83d\udd39 What you'll learn:\n\u2022 Configure automated testing for Copilot Studio agents.\n\u2022 Create comprehensive test suites and analyze agent performance.\n\u2022 Explore advanced tools for conversation KPIs, UI customization, and governance dashboards.\n\n\ud83d\udd17 Lab Link:\nhttps://pratapladhani.github.io/mcs-labs/labs/copilot-studio-kit/"
+    ],
+    "timestamp": "2026-02-23 19:00:04.038676"
+  },
+  {
+    "user": "shobhit",
+    "query": "What are the licensing options for Copilot?",
+    "tools": [],
+    "labs": [],
+    "timestamp": "2026-02-23 19:01:52.581815"
+  },
+  {
+    "user": "shobhit",
+    "query": "How do I design scalable Copilot architecture?",
+    "tools": [],
+    "labs": [
+      "\ud83d\udcda Lab Recommendation\n\n\ud83d\udd39 Title:\nDeliver high-quality, scalable agents with Copilot Studio Kit\n\n\ud83d\udd39 Why this lab:\nThis lab is relevant as it focuses on automating quality assurance for Copilot Studio agents, which is crucial for designing scalable architecture. It addresses common challenges in ensuring consistent and reliable agent performance.\n\n\ud83d\udd39 What you'll learn:\n\u2022 Configure automated testing for Copilot Studio agents.\n\u2022 Create comprehensive test suites and analyze agent performance.\n\u2022 Explore advanced tools for conversation KPIs, UI customization, and governance dashboards.\n\n\ud83d\udd17 Lab Link:\nhttps://pratapladhani.github.io/mcs-labs/labs/copilot-studio-kit/"
+    ],
+    "timestamp": "2026-02-23 19:02:42.808036"
+  },
+  {
+    "user": "shobhit",
+    "query": "How would you design an enterprise HR copilot in Copilot Studio with secure authentication, workflow automation, and employee onboarding labs?",
+    "tools": [],
+    "labs": [
+      "\ud83d\udcda Lab Recommendation\n\n\ud83d\udd39 Title:\nArchitecture Bootcamp | Microsoft Copilot Studio Labs\n\n\ud83d\udd39 Why this lab:\nThis lab is relevant as it covers the foundational aspects of building AI assistants, including secure authentication and workflow automation, which are essential for designing an enterprise HR copilot. It also addresses advanced data integration, crucial for employee onboarding processes.\n\n\ud83d\udd39 What you'll learn:\n\u2022 How to build progressive AI assistants using Agent Builder in Microsoft 365.\n\u2022 Best practices for application lifecycle management (ALM) to ensure secure and efficient workflows.\n\u2022 Techniques for creating autonomous agents that can interact with legacy systems and automate various HR tasks.\n\n\ud83d\udd17 Lab Link:\nhttps://pratapladhani.github.io/mcs-labs/labs/bootcamp/"
+    ],
+    "timestamp": "2026-02-23 19:06:42.789755"
+  },
+  {
+    "user": "shobhit",
+    "query": "I want a practical exercise for using Adaptive Cards in Copilot agents",
+    "tools": [],
+    "labs": [],
+    "timestamp": "2026-02-23 19:34:50.247268"
+  },
+  {
+    "user": "shobhit",
+    "query": "Hands-on task to build RAG agent using Copilot Studio",
+    "tools": [],
+    "labs": "\ud83d\udcda Lab Recommendation\n\n\ud83d\udd39 Title:\nConnecting Fabric Data Agents with Microsoft Copilot Studio\n\n\ud83d\udd39 Why this lab:\nThis lab is relevant as it addresses the challenges of disconnected data systems and manual query writing, enabling participants to create a collaborative AI ecosystem. By connecting Microsoft Fabric Data Agents with Copilot Studio, users can unlock powerful e-commerce analytics capabilities.\n\n\ud83d\udd39 What you'll learn:\n\u2022 Create and configure Fabric Data Agents with meta-prompts.\n\u2022 Establish a connection between Fabric Data Agents and Microsoft Copilot Studio.\n\u2022 Enable intelligent data querying through connected agents for enhanced business intelligence.\n\n\ud83d\udd17 Lab Link:\nhttps://pratapladhani.github.io/mcs-labs/labs/data-fabric-agent/",
+    "timestamp": "2026-02-24 14:01:29.637706"
+  },
+  {
+    "user": "shobhit",
+    "query": "Hands-on task to build RAG agent using Copilot Studio",
+    "tools": [],
+    "labs": "### Lab Title\nConnecting Fabric Data Agents with Microsoft Copilot Studio\n\n### Why Relevant\nThis lab is essential for makers and developers looking to enhance their AI agents' capabilities by enabling intelligent agent-to-agent communication. It addresses common challenges faced in data integration and querying, allowing for seamless collaboration between specialized agents to provide accurate analytics without manual intervention.\n\n### Learnings\n- Create and configure Fabric Data Agents with meta-prompts.\n- Establish a connection between Fabric Data Agents and Microsoft Copilot Studio.\n- Enable intelligent data querying through connected agents.\n- Gain hands-on experience with agent orchestration.\n- Understand how to leverage AI-powered data agents for business intelligence.\n- Transform isolated systems into a collaborative AI ecosystem.\n\nFor more details, visit: [Connecting Fabric Data Agents with Microsoft Copilot Studio](https://pratapladhani.github.io/mcs-labs/labs/data-fabric-agent/)",
+    "timestamp": "2026-02-24 14:05:57.778316"
+  },
+  {
+    "user": "shobhit",
+    "query": "Hands-on task to build RAG agent using Copilot Studio",
+    "tools": [],
+    "labs": "### Lab Title\nConnecting Fabric Data Agents with Microsoft Copilot Studio\n\n### Why Relevant\nThis lab addresses the challenges faced by makers and developers in managing disconnected data systems and manual query writing. By enabling intelligent agent-to-agent communication, participants can unlock powerful e-commerce analytics capabilities and enhance their organization's data intelligence.\n\n### Learnings\n- Create and configure Fabric Data Agents with meta-prompts.\n- Establish a connection between Fabric Data Agents and Microsoft Copilot Studio.\n- Enable intelligent data querying through connected agents.\n- Gain hands-on experience with agent orchestration.\n- Understand how to leverage AI-powered data agents for business intelligence.\n- Transform isolated systems into a collaborative AI ecosystem for improved analytics.\n\nFor more information, visit: [Connecting Fabric Data Agents with Microsoft Copilot Studio](https://pratapladhani.github.io/mcs-labs/labs/data-fabric-agent/)",
+    "timestamp": "2026-02-24 14:07:20.355675"
+  },
+  {
+    "user": "shobhit",
+    "query": "Practice exercise for hybrid RAG + knowledge graph agent",
+    "tools": [],
+    "labs": "### Lab Title Create an 'Ask me anything' agent for your employees\n### Why this lab is relevant This lab addresses the common challenges faced by employees in accessing information across multiple systems. By creating an intelligent agent, organizations can streamline the process of obtaining answers to frequently asked questions, thereby saving time and improving employee satisfaction.\n### What user will learn\n- How to create an intelligent \"Ask me anything\" agent that connects to various knowledge sources, including SharePoint and ServiceNow.\n- Techniques for configuring knowledge prioritization.\n- Steps to deploy agents to Microsoft 365 Copilot.\n- Implementation of AI-powered document analysis with human review workflows.\n- Methods for adding custom knowledge to the agent.\n- Strategies for creating child agents for specific use cases, such as IT support.\n- How to configure suggested prompts for enhanced user interaction.\nFor more information, visit: [Create an 'Ask me anything' agent for your employees](https://pratapladhani.github.io/mcs-labs/labs/ask-me-anything/)",
+    "timestamp": "2026-02-24 14:12:02.812328"
+  },
+  {
+    "user": "shobhit",
+    "query": "",
+    "tools": [],
+    "labs": [],
+    "timestamp": "2026-02-24 14:12:20.324504"
+  },
+  {
+    "user": "shobhit",
+    "query": "what is the billing cycle",
+    "tools": [],
+    "labs": [],
+    "timestamp": "2026-02-24 14:13:37.501409"
+  },
+  {
+    "user": "shobhit",
+    "query": "Practice exercise for hybrid RAG + knowledge graph agent",
+    "tools": [],
+    "labs": "### 1. Lab TitleCreate an 'Ask me anything' agent for your employees\n\n### 2. Why this lab is relevantThis lab addresses the common challenges faced by employees in accessing information across multiple systems. By creating an intelligent agent, organizations can streamline the process of obtaining answers to frequently asked questions, thereby improving efficiency and employee satisfaction.\n\n### 3. What user will learn\n- How to create an intelligent \"Ask me anything\" agent that connects to various knowledge sources, including SharePoint and ServiceNow.\n- Techniques for configuring knowledge prioritization.\n- Steps to deploy agents to Microsoft 365 Copilot.\n- Implementation of AI-powered document analysis with human review workflows.\n- Methods for adding custom knowledge to the agent.\n- Strategies for creating child agents for specific support needs.\n- How to summarize and review meeting notes effectively.\n\nFor more information, visit: [Create an 'Ask me anything' agent for your employees](https://pratapladhani.github.io/mcs-labs/labs/ask-me-anything/)",
+    "timestamp": "2026-02-24 14:19:13.593889"
+  },
+  {
+    "user": "shobhit",
+    "query": "",
+    "tools": [],
+    "labs": [],
+    "timestamp": "2026-02-24 14:19:34.306571"
+  },
+  {
+    "user": "shobhit",
+    "query": "How do I design scalable Copilot architecture?",
+    "tools": [],
+    "labs": [
+      "\ud83d\udcda Lab Recommendation\n\n\ud83d\udd39 Title:\nDeliver high-quality, scalable agents with Copilot Studio Kit\n\n\ud83d\udd39 Why this lab:\nThis lab is relevant as it focuses on automating quality assurance for Copilot Studio agents, which is essential for designing scalable architecture. It addresses common challenges in ensuring consistent and reliable agent performance.\n\n\ud83d\udd39 What you'll learn:\n\u2022 Configure automated testing for Copilot Studio agents.\n\u2022 Create comprehensive test suites and analyze agent performance.\n\u2022 Explore advanced tools for conversation KPIs, UI customization, and governance dashboards.\n\n\ud83d\udd17 Lab Link:\nhttps://pratapladhani.github.io/mcs-labs/labs/copilot-studio-kit/"
+    ],
+    "timestamp": "2026-02-24 14:26:20.603621"
+  },
+  {
+    "user": "shobhit",
+    "query": "Practice exercise for hybrid RAG + knowledge graph agent",
+    "tools": [],
+    "labs": "1. **Lab Title**: Create an 'Ask me anything' agent for your employees\n\n2. **Why this lab is relevant**: This lab addresses the common challenges faced by employees in accessing information across multiple systems. By creating an intelligent agent, organizations can streamline the process of obtaining answers to frequently asked questions, thereby improving efficiency and employee satisfaction.\n\n3. **What the user will learn**:\n   - How to create an intelligent \"Ask me anything\" agent that connects to various knowledge sources including SharePoint, ServiceNow, and custom knowledge bases.\n   - Techniques for configuring knowledge prioritization.\n   - Steps to deploy agents to Microsoft 365 Copilot.\n   - Implementation of AI-powered document analysis with human review workflows.\n   - How to add custom knowledge and create child agents for specific support needs.\n\nFor more information, visit: [Create an 'Ask me anything' agent for your employees](https://pratapladhani.github.io/mcs-labs/labs/ask-me-anything/)",
+    "timestamp": "2026-02-24 14:53:21.263920"
+  },
+  {
+    "user": "shobhit",
+    "query": "Lab to integrate Copilot Studio with WhatsApp automation",
+    "tools": [],
+    "labs": "1. **Lab Title**: Integrate Copilot Studio with WhatsApp Automation\n\n2. **Why Relevant**: This lab is relevant as it explores the integration of advanced AI tools like Microsoft Copilot Studio with popular messaging platforms such as WhatsApp, enhancing automation capabilities and improving user engagement.\n\n3. **Learnings**:\n   - Understanding the fundamentals of Microsoft Copilot Studio.\n   - Steps to set up and configure WhatsApp automation.\n   - Best practices for integrating AI-driven solutions with messaging platforms.\n   - Real-world applications of automation in communication.\n   - Troubleshooting common issues during integration.\n\nFor more information, visit: [Lab Link](https://pratapladhani.github.io/mcs-labs/labs/)",
+    "timestamp": "2026-02-24 17:20:05.816078"
+  },
+  {
+    "user": "shobhit",
+    "query": "",
+    "tools": [],
+    "labs": [],
+    "timestamp": "2026-02-24 17:20:35.413490"
+  },
+  {
+    "user": "shobhit",
+    "query": "Lab to integrate Copilot Studio with WhatsApp automation",
+    "tools": [],
+    "labs": "1. **Lab Title**: Integrate Copilot Studio with WhatsApp Automation\n\n2. **Why Relevant**: This lab is relevant as it explores the integration of advanced AI tools like Microsoft Copilot Studio with popular messaging platforms such as WhatsApp, enhancing automation capabilities and improving user engagement.\n\n3. **Learnings**:\n   - Understanding the fundamentals of Microsoft Copilot Studio.\n   - Steps to set up and configure WhatsApp automation.\n   - Best practices for integrating AI-driven solutions with messaging platforms.\n   - Real-world applications of automation in communication.\n   - Troubleshooting common issues during integration.\n\nFor more information, visit: [Lab Link](https://pratapladhani.github.io/mcs-labs/labs/)",
+    "timestamp": "2026-02-24 17:29:10.187285"
+  },
+  {
+    "user": "shobhit",
+    "query": "",
+    "tools": [],
+    "labs": [],
+    "timestamp": "2026-02-24 17:29:23.393569"
+  },
+  {
+    "user": "shobhit",
+    "query": "How do I design scalable Copilot architecture? ",
+    "tools": [],
+    "labs": [
+      "\ud83d\udcda Lab Recommendation\n\n\ud83d\udd39 Title:\nDeliver high-quality, scalable agents with Copilot Studio Kit\n\n\ud83d\udd39 Why this lab:\nThis lab is relevant as it focuses on automating quality assurance for Copilot Studio agents, which is crucial for designing scalable architecture. It addresses common challenges in ensuring consistent and reliable agent performance.\n\n\ud83d\udd39 What you'll learn:\n\u2022 Configure automated testing for Copilot Studio agents\n\u2022 Create comprehensive test suites and analyze agent performance\n\u2022 Explore advanced tools for quality assurance and optimization insights\n\n\ud83d\udd17 Lab Link:\nhttps://pratapladhani.github.io/mcs-labs/labs/copilot-studio-kit/"
+    ],
+    "timestamp": "2026-02-24 17:32:23.831452"
+  },
+  {
+    "user": "shobhit",
+    "query": "Hands-on task to build RAG agent using Copilot Studio",
+    "tools": [],
+    "labs": "### Title: Build a RAG Agent Using Copilot Studio\n\n**Why Relevant:**  \nIn today's data-driven landscape, organizations need AI agents that can collaborate effectively to provide comprehensive insights. This lab empowers developers to connect Microsoft Fabric Data Agents with Copilot Studio, enhancing data intelligence and analytics capabilities.\n\n**What Users Will Learn:**\n- How to create and configure Fabric Data Agents with meta-prompts.\n- Establishing a connection between Fabric Data Agents and Microsoft Copilot Studio.\n- Enabling intelligent data querying through connected agents.\n- Hands-on experience with agent orchestration for improved business intelligence.\n- Solutions to common challenges in data integration and querying.\n\nFor more details, visit: [Build a RAG Agent Using Copilot Studio](https://pratapladhani.github.io/mcs-labs/labs/data-fabric-agent/)",
+    "timestamp": "2026-02-24 18:34:28.115043"
+  },
+  {
+    "user": "shobhit",
+    "query": "Hands-on exercise for Dataverse integration",
+    "tools": [],
+    "labs": [],
+    "timestamp": "2026-02-25 17:54:53.527569"
+  },
+  {
+    "user": "shobhit",
+    "query": "Practical exercise to build enterprise AI assistant",
+    "tools": [],
+    "labs": "# Title: Building an Enterprise AI Assistant\n\n## Goal\nTransform a basic AI agent into a sophisticated, data-driven assistant that learns and improves over time, enhancing user experiences and driving better business outcomes.\n\n\ud83d\udc49 **Task**\n- Analyze user interactions to identify areas for improvement.\n- Implement machine learning algorithms to enable continuous learning.\n- Design a feedback loop to gather user insights and refine responses.\n- Measure the effectiveness of the AI assistant using key performance indicators (KPIs).\n\n\u2705 **Learning (skills gained)**\n- Proficiency in machine learning techniques for AI development.\n- Ability to analyze and interpret user data for system enhancement.\n- Skills in designing user feedback mechanisms.\n- Understanding of performance measurement and optimization strategies.\n\nFor more details, visit: [Measure Success Lab](https://pratapladhani.github.io/mcs-labs/labs/measure-success/)",
+    "timestamp": "2026-02-25 17:55:49.722161"
+  },
+  {
+    "user": "shobhit",
+    "query": "How do I design scalable Copilot architecture? ",
+    "tools": [],
+    "labs": "# Lab Recommendation: Designing Scalable Copilot Architecture\n\n**Goal:**  \nLearn to deliver high-quality, scalable agents using the Copilot Studio Kit. This lab focuses on automating quality assurance for your Copilot Studio agents to ensure consistent performance and reliability.\n\n\ud83d\udc49 **Task:**  \n- Configure and run automated test scenarios for Copilot Studio agents.  \n- Create comprehensive test suites to validate agent behavior across multiple scenarios.  \n- Analyze agent performance using advanced analytics and conversation KPIs.  \n- Explore UI customization and governance dashboards for enhanced agent management.  \n\n\u2705 **Learning (skills gained):**  \n- Expertise in quality assurance practices for AI-powered conversational agents.  \n- Proficiency in configuring automated testing and analyzing test results.  \n- Ability to implement data-driven optimization insights for agent performance.  \n- Understanding of advanced features in the Copilot Studio Kit for scalable architecture.  \n\nFor more details, visit: [Copilot Studio Kit Lab](https://pratapladhani.github.io/mcs-labs/labs/copilot-studio-kit/)",
+    "timestamp": "2026-02-25 17:57:51.370911"
+  },
+  {
+    "user": "shobhit",
+    "query": "How do I design scalable Copilot architecture? ",
+    "tools": [],
+    "labs": [
+      "\ud83d\udcda Lab Recommendation\n\n\ud83d\udd39 Title:\nDeliver high-quality, scalable agents with Copilot Studio Kit\n\n\ud83d\udd39 Why this lab:\nThis lab is relevant as it focuses on automating quality assurance for Copilot Studio agents, which is crucial for designing scalable architecture. It addresses the need for systematic testing to ensure consistent and reliable agent performance.\n\n\ud83d\udd39 What you'll learn:\n\u2022 Configure automated testing for Copilot Studio agents.\n\u2022 Create comprehensive test suites and analyze agent performance.\n\u2022 Explore advanced tools for conversation KPIs, UI customization, and governance dashboards.\n\n\ud83d\udd17 Lab Link:\nhttps://pratapladhani.github.io/mcs-labs/labs/copilot-studio-kit/"
+    ],
+    "timestamp": "2026-02-25 18:02:35.133719"
+  },
+  {
+    "user": "shobhit",
+    "query": "How do I design scalable Copilot architecture? ",
+    "tools": [],
+    "labs": [
+      "\ud83d\udcda Lab Recommendation\n\n\ud83d\udd39 Title:\nDeliver high-quality, scalable agents with Copilot Studio Kit\n\n\ud83d\udd39 Why this lab:\nThis lab is relevant as it focuses on automating quality assurance for Copilot Studio agents, which is crucial for designing scalable architecture. It addresses the need for systematic testing to ensure consistent and reliable agent performance.\n\n\ud83d\udd39 What you'll learn:\n\u2022 Configure automated testing for Copilot Studio agents\n\u2022 Create comprehensive test suites and analyze agent performance\n\u2022 Explore advanced tools for quality assurance and governance in AI agents\n\n\ud83d\udd17 Lab Link:\nhttps://pratapladhani.github.io/mcs-labs/labs/copilot-studio-kit/"
+    ],
+    "timestamp": "2026-02-25 18:15:18.017306"
+  },
+  {
+    "user": "shobhit",
+    "query": "Practice exercise for hybrid RAG + knowledge graph agent",
+    "tools": [],
+    "labs": [
+      "\ud83d\udcda Lab Recommendation\n\n\ud83d\udd39 Title:\nCreate an 'Ask me anything' agent for your employees\n\n\ud83d\udd39 Why this lab:\nThis lab is relevant as it teaches how to build an intelligent agent that connects to various knowledge sources, which is essential for creating a hybrid RAG + knowledge graph agent. It addresses common challenges in accessing information efficiently.\n\n\ud83d\udd39 What you'll learn:\n\u2022 Create an intelligent \"Ask me anything\" agent that connects to multiple knowledge sources.\n\u2022 Configure knowledge prioritization and deploy agents to Microsoft 365 Copilot.\n\u2022 Implement AI-powered document analysis with human review workflows.\n\n\ud83d\udd17 Lab Link:\nhttps://pratapladhani.github.io/mcs-labs/labs/ask-me-anything/"
+    ],
+    "timestamp": "2026-02-25 18:15:59.082386"
+  },
+  {
+    "user": "shobhit",
+    "query": "Hands-on project to build an enterprise AI Copilot agent with RAG architecture",
+    "tools": [],
+    "labs": [
+      "\ud83d\udcda Lab Recommendation\n\n\ud83d\udd39 Title:\nArchitecture Bootcamp | Microsoft Copilot Studio Labs\n\n\ud83d\udd39 Why this lab:\nThis lab is relevant as it provides a comprehensive hands-on experience in building AI assistants and autonomous agents, which is essential for creating an enterprise AI Copilot agent with RAG architecture. It covers best practices and advanced data integration techniques.\n\n\ud83d\udd39 What you'll learn:\n\u2022 How to build progressive AI assistants using Agent Builder in Microsoft 365.\n\u2022 Best practices for Application Lifecycle Management (ALM) in AI projects.\n\u2022 Techniques for creating autonomous agents that can interact with legacy systems and integrate data effectively.\n\n\ud83d\udd17 Lab Link:\nhttps://pratapladhani.github.io/mcs-labs/labs/bootcamp/"
+    ],
+    "timestamp": "2026-02-25 18:25:11.113805"
+  },
+  {
+    "user": "shobhit",
+    "query": "Hands-on project to build an enterprise AI Copilot agent with RAG architecture",
+    "tools": [],
+    "labs": [
+      "\ud83d\udcda Lab Recommendation\n\n\ud83d\udd39 Title:\nArchitecture Bootcamp\n\n\ud83d\udd39 Why this lab:\nThis lab is relevant as it provides a comprehensive hands-on experience in building AI assistants and autonomous agents, which is essential for creating an enterprise AI Copilot agent with RAG architecture. It covers best practices and advanced data integration techniques.\n\n\ud83d\udd39 What you'll learn:\n\u2022 How to build progressive AI assistants using Agent Builder in Microsoft 365.\n\u2022 Best practices for Application Lifecycle Management (ALM) in AI projects.\n\u2022 Techniques for creating autonomous agents that can integrate with various data sources.\n\n\ud83d\udd17 Lab Link:\nhttps://pratapladhani.github.io/mcs-labs/labs/bootcamp/"
+    ],
+    "timestamp": "2026-02-25 18:34:58.406350"
+  },
+  {
+    "user": "shobhit",
+    "query": "Hands-on project to build an enterprise AI Copilot agent with RAG architecture",
+    "tools": [],
+    "labs": [
+      "\ud83d\udcda Lab Recommendation\n\n\ud83d\udd39 Title:\nArchitecture Bootcamp\n\n\ud83d\udd39 Why this lab:\nThis lab is relevant as it provides a comprehensive hands-on experience in building AI assistants and autonomous agents, which aligns with the goal of creating an enterprise AI Copilot agent using RAG architecture. It covers essential practices and advanced data integration techniques.\n\n\ud83d\udd39 What you'll learn:\n\u2022 How to build progressive AI assistants using Agent Builder in Microsoft 365.\n\u2022 Best practices for Application Lifecycle Management (ALM) in AI projects.\n\u2022 Techniques for creating autonomous agents that can integrate with various data sources.\n\n\ud83d\udd17 Lab Link:\nhttps://pratapladhani.github.io/mcs-labs/labs/bootcamp/"
+    ],
+    "timestamp": "2026-02-25 18:43:47.698873"
+  },
+  {
+    "user": "shobhit",
+    "query": "Hands-on project to build an enterprise AI Copilot agent with RAG architecture",
+    "tools": [],
+    "labs": [
+      "\ud83d\udcda Lab Recommendation\n\n\ud83d\udd39 Title:\nArchitecture Bootcamp | Microsoft Copilot Studio Labs\n\n\ud83d\udd39 Why this lab:\nThis lab is relevant as it provides a comprehensive hands-on experience in building AI assistants and autonomous agents, which is essential for creating an enterprise AI Copilot agent with RAG architecture. It covers best practices and advanced data integration techniques.\n\n\ud83d\udd39 What you'll learn:\n\u2022 How to build progressive AI assistants using Agent Builder in Microsoft 365.\n\u2022 Best practices for Application Lifecycle Management (ALM) in AI projects.\n\u2022 Techniques for creating autonomous agents that can interact with legacy systems and integrate data effectively.\n\n\ud83d\udd17 Lab Link:\nhttps://pratapladhani.github.io/mcs-labs/labs/bootcamp/"
+    ],
+    "timestamp": "2026-02-26 14:50:33.443530"
+  },
+  {
+    "user": "shobhit",
+    "query": "what tools would you use to make this",
+    "tools": [],
+    "labs": [
+      "\ud83d\udcda Title: Introduction to Data Visualization with Python\n\n\ud83c\udfaf Goal:\nLearn how to create basic data visualizations using Python libraries to effectively communicate data insights.\n\n\ud83d\udc49 Tasks:\n\u2022 Install Python and set up a virtual environment.\n\u2022 Import necessary libraries: Matplotlib and Seaborn.\n\u2022 Load a sample dataset (e.g., Iris dataset) using Pandas.\n\u2022 Create basic visualizations: a scatter plot and a bar chart.\n\u2022 Customize the visualizations with titles, labels, and color schemes.\n\n\u2705 Learning:\nSkills gained include data manipulation with Pandas, creating visualizations with Matplotlib and Seaborn, and understanding how to present data insights effectively.\n\nTopic:\nTools: Python, Matplotlib, Seaborn, Pandas, Jupyter Notebook."
+    ],
+    "timestamp": "2026-02-26 19:08:58.253894"
+  },
+  {
+    "user": "shobhit",
+    "query": "*How do you decide which SDK or programming language is best suited for a specific project when using Microsoft Copilot Studio?",
+    "tools": [],
+    "labs": [
+      "\ud83d\udcda Lab Recommendation\n\n\ud83d\udd39 Title:\nSet yourself up for success & discover ALM best practices\n\n\ud83d\udd39 Why this lab:\nThis lab is relevant as it focuses on Application Lifecycle Management (ALM) best practices, which are crucial for deciding the appropriate SDK or programming language for a project. Understanding ALM helps in structuring solutions effectively and managing configurations, which can influence the choice of tools and languages.\n\n\ud83d\udd39 What you'll learn:\n\u2022 How to structure your work using solutions and publishers.\n\u2022 How to configure environment variables and connection references for deployment readiness.\n\u2022 Best practices for managing the lifecycle of Microsoft Copilot Studio agents.\n\n\ud83d\udd17 Lab Link:\nhttps://pratapladhani.github.io/mcs-labs/labs/setup-for-success/"
+    ],
+    "timestamp": "2026-02-27 14:00:16.544600"
+  },
+  {
+    "user": "shobhit",
+    "query": "What are the licensing options for Copilot?",
+    "tools": [],
+    "labs": [],
+    "timestamp": "2026-02-27 14:14:39.637052"
+  },
+  {
+    "user": "shobhit",
+    "query": "Can you provide more details on the specific functionalities that are unlocked with a standalone subscription compared to the free version of Copilot Studio?",
+    "tools": [],
+    "labs": [],
+    "timestamp": "2026-02-27 14:33:21.289019"
+  },
+  {
+    "user": "shobhit",
+    "query": "How do I design scalable Copilot architecture?",
+    "tools": [],
+    "labs": [],
+    "timestamp": "2026-02-27 14:56:53.543128"
+  },
+  {
+    "user": "shobhit",
+    "query": "How do I design scalable Copilot architecture?",
+    "tools": [],
+    "labs": [
+      "\ud83d\udcda Lab Recommendation\n\n\ud83d\udd39 Title:\nDeliver high-quality, scalable agents with Copilot Studio Kit\n\n\ud83d\udd39 Why this lab:\nThis lab is relevant as it focuses on automating quality assurance for Copilot Studio agents, which is crucial for designing scalable architecture. It addresses common challenges in ensuring consistent and reliable agent performance.\n\n\ud83d\udd39 What you'll learn:\n\u2022 Configure automated testing for Copilot Studio agents\n\u2022 Create comprehensive test suites and analyze agent performance\n\u2022 Explore advanced tools for quality assurance and governance dashboards\n\n\ud83d\udd17 Lab Link:\nhttps://pratapladhani.github.io/mcs-labs/labs/copilot-studio-kit/"
+    ],
+    "timestamp": "2026-02-27 18:24:32.478978"
+  },
+  {
+    "user": "shobhit",
+    "query": "what is the use case of power automate",
+    "tools": [],
+    "labs": [],
+    "timestamp": "2026-02-27 18:25:32.957092"
+  },
+  {
+    "user": "ec2ce5bf-9b66-489f-bb9f-21e2c169f141",
+    "query": "Hands-on project to build an enterprise AI Copilot agent with RAG architecture",
+    "tools": [],
+    "labs": [
+      "\ud83d\udcda Lab Recommendation\n\n\ud83d\udd39 Title:\nArchitecture Bootcamp | Microsoft Copilot Studio Labs\n\n\ud83d\udd39 Why this lab:\nThis lab is relevant as it provides a comprehensive hands-on experience in building AI assistants and autonomous agents, which is essential for creating an enterprise AI Copilot agent with RAG architecture. It covers advanced data integration and best practices that are crucial for successful implementation.\n\n\ud83d\udd39 What you'll learn:\n\u2022 How to build progressive AI assistants using Agent Builder in Microsoft 365.\n\u2022 Best practices for Application Lifecycle Management (ALM) in AI projects.\n\u2022 Techniques for creating autonomous agents that can interact with legacy systems and integrate data effectively.\n\n\ud83d\udd17 Lab Link:\nhttps://pratapladhani.github.io/mcs-labs/labs/bootcamp/"
+    ],
+    "timestamp": "2026-03-02 11:17:32.107063"
+  }
+]
