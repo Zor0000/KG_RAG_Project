@@ -1,4 +1,5 @@
 # ingestion/ingest_kg.py
+import sys
 
 from neo4j import GraphDatabase
 from ingestion.db import get_connection
@@ -12,8 +13,8 @@ ENRICHMENT_VERSION = 1
 
 NEO4J_URI = "bolt://localhost:7687"
 NEO4J_USER = "neo4j"
-NEO4J_PASSWORD = "Neer@j080105"
-NEO4J_DATABASE = "copilot-kg-v5"  # 🔥 SAME DATABASE
+NEO4J_PASSWORD = "password"
+NEO4J_DATABASE = "neo4j"  # 🔥 SAME DATABASE
 
 
 driver = GraphDatabase.driver(
@@ -157,3 +158,11 @@ def main(source_id):
             )
 
     print("🎉 Neo4j KG ingestion complete\n")
+
+if __name__ == "__main__":
+    import sys
+    
+if len(sys.argv) < 2:
+        print("Usage: python -m ingestion.ingest_kg <source_id>")
+else:
+        main(sys.argv[1])
