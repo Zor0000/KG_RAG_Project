@@ -13,16 +13,17 @@ from ingestion.ingest_kg import main as kg_main
 # 🔹 PRODUCT CONFIG (EDIT THIS PER PRODUCT)
 # ============================================================
 
-PRODUCT = "autogen"
-
-SOURCE_ID = "autogen-ecosystem"
+PRODUCT = "copilot_studio"
+SOURCE_ID = "copilot_studio"
 
 START_URLS = [
-    "https://microsoft.github.io/autogen/stable/",
+    "https://learn.microsoft.com/en-us/microsoft-copilot-studio/",
+    "https://adoption.microsoft.com/en-us/ai-agents/copilot-studio/"
 ]
 
 ALLOWED_PREFIXES = [
-    "https://microsoft.github.io/autogen/stable/",
+    "https://learn.microsoft.com/en-us/microsoft-copilot-studio/",
+    "https://adoption.microsoft.com/en-us/ai-agents/copilot-studio/"
 ]
 
 MILVUS_COLLECTION = "project_chunks_v5"   # Keep same collection
