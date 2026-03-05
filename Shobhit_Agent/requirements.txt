@@ -1,0 +1,37 @@
+# Core LLM + embeddings
+openai>=1.30.0
+tiktoken>=0.7.0
+
+# Vector DB (Milvus)
+pymilvus>=2.4.0
+langchain-milvus>=0.1.0
+
+# LangChain ecosystem
+langchain>=0.2.0
+langchain-community>=0.2.0
+langchain-core>=0.2.0
+langchain-openai>=0.1.0
+
+# Embedding models
+sentence-transformers>=2.7.0
+transformers>=4.40.0
+torch>=2.2.0
+
+# Knowledge Graph (Neo4j)
+neo4j>=5.20.0
+
+# Crawling + ingestion
+crawl4ai>=0.8.0
+beautifulsoup4>=4.12.0
+lxml>=5.2.0
+
+# Redis memory
+redis>=5.0.4
+
+# Utilities
+python-dotenv>=1.0.1
+numpy>=1.26.0
+pandas>=2.2.0
+scikit-learn>=1.4.0
+httpx>=0.27.0
+tqdm>=4.66.0
