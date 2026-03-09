@@ -27,10 +27,9 @@ MODEL_NAME = "gpt-5.2"
 
 MINILM_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 
-TOPIC_DETECTION_K = 5
-EXPANSION_LIMIT = 50
-VECTOR_TOP_K = 40
+VECTOR_TOP_K = 120
 RERANK_TOP_K = 10
+EXPANSION_LIMIT = 50
 
 
 # ============================================================
@@ -92,68 +91,28 @@ Return ONLY JSON.
 
 
 # ============================================================
-# STEP 2 — Fetch All Topics
-# ============================================================
-
-def fetch_all_topics():
-
-    with driver.session(database=NEO4J_DB) as session:
-
-        res = session.run("""
-        MATCH (t:Topic)
-        RETURN t.name AS name
-        """)
-
-        topics = [r["name"] for r in res]
-
-    return topics
-
-
-# ============================================================
-# STEP 3 — Detect Topics
-# ============================================================
-
-def detect_topics(query: str):
-
-    topics = fetch_all_topics()
-
-    topic_emb = minilm.encode(topics, convert_to_tensor=True)
-    query_emb = minilm.encode(query, convert_to_tensor=True)
-
-    scores = util.cos_sim(query_emb, topic_emb)[0]
-
-    top_idx = scores.topk(TOPIC_DETECTION_K).indices
-
-    detected = [topics[i] for i in top_idx]
-
-    print("\n🔎 Detected Topics:", detected)
-
-    return detected
-
-
-# ============================================================
-# STEP 4 — Expand Topics
+# STEP 2 — Graph Topic Expansion
 # ============================================================
 
 def expand_topics(seed_topics):
+
+    if not seed_topics:
+        return []
 
     with driver.session(database=NEO4J_DB) as session:
 
         res = session.run("""
         MATCH (t:Topic)
         WHERE t.name IN $topics
-        MATCH (t)-[:HAS_SUPER_TOPIC]->(s:SuperTopic)
-        MATCH (s)<-[:HAS_SUPER_TOPIC]-(related:Topic)
-        RETURN DISTINCT related.name AS topic
+        OPTIONAL MATCH (t)-[:RELATED_TO]-(related:Topic)
+        OPTIONAL MATCH (d:Document)-[:COVERS_TOPIC]->(t)
+        RETURN DISTINCT coalesce(related.name, t.name) AS topic
         LIMIT $limit
         """,
         {"topics": seed_topics, "limit": EXPANSION_LIMIT}
         )
 
         expanded = [r["topic"] for r in res]
-
-    if not expanded:
-        expanded = seed_topics
 
     expanded = list(set(seed_topics + expanded))
 
@@ -163,7 +122,7 @@ def expand_topics(seed_topics):
 
 
 # ============================================================
-# STEP 5 — OpenAI Embedding
+# STEP 3 — OpenAI Embedding
 # ============================================================
 
 def embed_query(query):
@@ -177,26 +136,21 @@ def embed_query(query):
 
 
 # ============================================================
-# STEP 6 — Milvus Search
+# STEP 4 — Milvus Search
 # ============================================================
 
-def search_milvus(query, topics):
-
-    if not topics:
-        return []
+def search_milvus(query):
 
     query_vector = embed_query(query)
-
-    expr = f'canonical_topic in {topics}'
-
-    print("\n📦 Milvus Filter:", expr)
 
     results = collection.search(
         data=[query_vector],
         anns_field="embedding",
-        param={"metric_type": "COSINE", "params": {"ef": 100}},
+        param={
+            "metric_type": "COSINE",
+            "params": {"ef": 200}
+        },
         limit=VECTOR_TOP_K,
-        expr=expr,
         output_fields=[
             "chunk_id",
             "text",
@@ -220,10 +174,47 @@ def search_milvus(query, topics):
             "persona": entity.get("persona"),
             "intent": entity.get("intent"),
             "product": entity.get("product"),
-            "score": hit.distance
+            "vector_score": hit.distance
         })
 
     return hits
+
+
+# ============================================================
+# STEP 5 — Extract Topics From Chunks
+# ============================================================
+
+def extract_topics_from_chunks(chunks):
+
+    topics = set()
+
+    for c in chunks:
+        if c.get("topic"):
+            topics.add(c["topic"])
+
+    topics = list(topics)
+
+    print("\n🔎 Topics from chunks:", topics[:10])
+
+    return topics
+
+
+# ============================================================
+# STEP 6 — Graph Boost
+# ============================================================
+
+def graph_boost(chunks, expanded_topics):
+
+    expanded_set = set(expanded_topics)
+
+    for c in chunks:
+
+        if c["topic"] in expanded_set:
+            c["graph_bonus"] = 0.1
+        else:
+            c["graph_bonus"] = 0
+
+    return chunks
 
 
 # ============================================================
@@ -243,7 +234,10 @@ def rerank(query, chunks):
     scores = util.cos_sim(query_emb, doc_emb)[0]
 
     for i, score in enumerate(scores):
-        chunks[i]["rerank_score"] = float(score)
+
+        graph_bonus = chunks[i].get("graph_bonus", 0)
+
+        chunks[i]["rerank_score"] = float(score) + graph_bonus
 
     chunks.sort(key=lambda x: x["rerank_score"], reverse=True)
 
@@ -256,13 +250,23 @@ def rerank(query, chunks):
 
 def graph_guided_search(query, persona="All", product="All", top_k=5):
 
+    print("\n==============================")
+    print("🔎 QUERY:", query)
+    print("==============================")
+
     structure = extract_query_structure(query)
 
-    detected_topics = detect_topics(query)
+    # Step 1 — Vector retrieval
+    milvus_hits = search_milvus(query)
 
-    expanded_topics = expand_topics(detected_topics)
+    # Step 2 — Extract topics from retrieved chunks
+    chunk_topics = extract_topics_from_chunks(milvus_hits)
 
-    milvus_hits = search_milvus(query, expanded_topics)
+    # Step 3 — Graph expansion
+    expanded_topics = expand_topics(chunk_topics)
+
+    # Step 4 — Graph boost
+    milvus_hits = graph_boost(milvus_hits, expanded_topics)
 
     # -----------------------------
     # Persona Filter
@@ -284,16 +288,15 @@ def graph_guided_search(query, persona="All", product="All", top_k=5):
             if c.get("product") == product
         ]
 
+    # Step 5 — Rerank
     reranked = rerank(query, milvus_hits)
 
-    # -----------------------------
-    # Deduplicate topics
-    # -----------------------------
-
+    # Step 6 — Deduplicate topics
     seen = set()
     unique = []
 
     for r in reranked:
+
         if r["topic"] not in seen:
             unique.append(r)
             seen.add(r["topic"])
@@ -301,6 +304,85 @@ def graph_guided_search(query, persona="All", product="All", top_k=5):
     return {
         "results": unique[:top_k],
         "structure": structure,
-        "detected_topics": detected_topics,
+        "detected_topics": chunk_topics,
         "expanded_topics": expanded_topics
     }
+
+# ============================================================
+# LANGSERVE ENTRYPOINT
+# ============================================================
+
+def retrieve_answer(question: str):
+    """
+    LangServe-compatible wrapper.
+    This is the function the API will call.
+    """
+
+    results = graph_guided_search(question)
+
+    if not results["results"]:
+        return {
+            "answer": "No relevant information found.",
+            "sources": []
+        }
+
+    context = "\n\n".join(
+        [r["text"] for r in results["results"]]
+    )
+
+    prompt = f"""
+Use the provided context to answer the question.
+
+Context:
+{context}
+
+Question:
+{question}
+
+Answer clearly and cite relevant information if needed.
+"""
+
+    response = openai_client.chat.completions.create(
+        model=MODEL_NAME,
+        temperature=0,
+        messages=[
+            {"role": "system", "content": "You are a helpful Copilot Studio expert."},
+            {"role": "user", "content": prompt}
+        ]
+    )
+
+    answer = response.choices[0].message.content
+
+    return {
+        "answer": answer,
+        "sources": results["results"],
+        "structure": results["structure"],
+        "topics": results["expanded_topics"]
+    }
+# ============================================================
+# CLI TEST
+# ============================================================
+
+if __name__ == "__main__":
+
+    while True:
+
+        q = input("\n💬 Ask (or type exit): ")
+
+        if q.lower() == "exit":
+            break
+
+        results = graph_guided_search(q)
+
+        if not results["results"]:
+            print("\n❌ No results\n")
+            continue
+
+        print("\n🏆 Top Results\n")
+
+        for i, r in enumerate(results["results"], 1):
+
+            print(f"{i}. Score: {r['rerank_score']:.4f}")
+            print(f"Topic: {r['topic']}")
+            print(r["text"][:300])
+            print()
