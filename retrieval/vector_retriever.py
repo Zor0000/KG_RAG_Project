@@ -1,7 +1,7 @@
 # retrieval/vector_retriever.py
 
 from typing import List, Dict
-from pymilvus import connections, Collection
+from pymilvus import connections, Collection, utility
 from openai import OpenAI
 import os
 
@@ -29,8 +29,15 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 print("🔌 Connecting to Milvus...")
 connections.connect(alias="default", host=MILVUS_HOST, port=MILVUS_PORT)
 
-collection = Collection(COLLECTION_NAME)
-collection.load()
+# Check if collection exists
+if utility.has_collection(COLLECTION_NAME):
+    collection = Collection(COLLECTION_NAME)
+    collection.load()
+    print(f"✅ Collection {COLLECTION_NAME} loaded successfully")
+else:
+    raise Exception(
+        f"❌ Collection '{COLLECTION_NAME}' does not exist in Milvus. Please run ingestion first."
+    )
 
 print("🤖 Initializing OpenAI embedding client...")
 client = OpenAI(api_key=OPENAI_API_KEY)
