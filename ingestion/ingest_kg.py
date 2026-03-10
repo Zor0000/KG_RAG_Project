@@ -163,9 +163,9 @@ else:
 
         print("✔ Topic relationships created")
 
-    print("\n🎉 KG v6 build complete\n")
+        print("\n🎉 KG v6 build complete\n")
 
-    import sys
+        import sys
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:

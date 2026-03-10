@@ -74,20 +74,18 @@ if user_input:
             top_k=top_k
         )
 
-    results = debug["results"]
+    results = debug.get("results", [])
+
 
     # ========================================================
     # Debug Sidebar
     # ========================================================
 
     st.sidebar.markdown("### 🧠 Query Structure")
-    st.sidebar.json(debug["structure"])
+    st.sidebar.json(debug.get("structure", {}))
 
-    st.sidebar.markdown("### 🔎 Detected Topics")
-    st.sidebar.write(debug["detected_topics"])
-
-    st.sidebar.markdown("### 🌐 Expanded Topics")
-    st.sidebar.write(debug["expanded_topics"])
+    st.sidebar.markdown("### 🌐 Routed / Expanded Topics")
+    st.sidebar.write(debug.get("topics", []))
 
 
     # ========================================================
@@ -119,11 +117,14 @@ if user_input:
 
             for i, r in enumerate(results, 1):
 
+                topic = r.get("topic", "Unknown Topic")
+                score = r.get("rerank_score", 0)
+
                 with st.expander(
-                    f"{i}. {r['topic']} (Score: {r['rerank_score']:.4f})"
+                    f"{i}. {topic} (Score: {score:.4f})"
                 ):
 
-                    st.write(r["text"])
+                    st.write(r.get("text", ""))
 
                     st.caption(
                         f"Persona: {r.get('persona')} | "
