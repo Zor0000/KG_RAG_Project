@@ -23,7 +23,7 @@ MILVUS_COLLECTION = "project_chunks_v5"
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
-MODEL_NAME = "gpt-5.2"
+MODEL_NAME = "gpt-4o-mini"
 
 MINILM_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 

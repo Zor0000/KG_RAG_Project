@@ -28,7 +28,13 @@ from openai import OpenAI
 import os
 
 from retrieval.unified_retriever  import unified_search
-from retrieval.answer_generator   import generate_answer, generate_guided_preview
+from retrieval.answer_generator   import (
+    generate_answer,
+    generate_guided_preview,
+    generate_lab_recommendation_answer,
+    generate_no_results_answer,
+)
+from retrieval.unified_retriever  import is_lab_query
 
 # New modules — place these 3 files at KG_RAG_PROJECT/ (project root):
 #   KG_RAG_PROJECT/session_manager.py
@@ -179,14 +185,25 @@ def _render_answer_block(
     Also saves the completed turn to Redis.
     """
 
-    # ── Generate answer with session context injected ─────────────────
-    answer_data = generate_answer(
-        query           = rewritten_query,
-        results         = results,
-        session_context = session_ctx,
-        persona         = persona,
-        product         = product,
-    )
+    # ── Route to correct generator based on query type ────────────────
+    # Lab/recommendation queries use a specialised prompt that produces
+    # a ranked, actionable list instead of a generic paragraph.
+    if is_lab_query(raw_question):
+        answer_data = generate_lab_recommendation_answer(
+            query           = rewritten_query,
+            results         = results,
+            session_context = session_ctx,
+            persona         = persona,
+            product         = product,
+        )
+    else:
+        answer_data = generate_answer(
+            query           = rewritten_query,
+            results         = results,
+            session_context = session_ctx,
+            persona         = persona,
+            product         = product,
+        )
 
     with st.chat_message("assistant"):
         st.markdown(answer_data["answer"])
@@ -402,12 +419,21 @@ if user_input:
                 top_k   = top_k,
             )
 
-        # ── Empty ────────────────────────────────────────────────────
-        if response["mode"] == "empty":
-            msg = "No relevant information found. Try rephrasing or selecting a different product."
+        # ── Empty / No results ───────────────────────────────────────────
+        if response["mode"] in ("empty", "no_results"):
+            fallback_data = generate_no_results_answer(
+                query           = user_input,
+                session_context = get_context(sid),
+                persona         = persona,
+                product         = product,
+            )
             with st.chat_message("assistant"):
-                st.markdown(msg)
-            st.session_state.chat_history.append({"role": "assistant", "content": msg})
+                st.markdown(fallback_data["answer"])
+            st.session_state.chat_history.append({
+                "role": "assistant", "content": fallback_data["answer"]
+            })
+            save_turn(sid=sid, question=user_input, rewritten_query=rewritten_query,
+                      answer=fallback_data["answer"])
 
         # ── Guided clarification ──────────────────────────────────────
         elif response["mode"] == "guided_clarification":

@@ -22,11 +22,10 @@ driver = GraphDatabase.driver(
 
 
 # ============================================================
-# 🔹 Product keyword map
+# 🔹 Product keyword map  (expanded)
 # ============================================================
-# If ANY of these keywords appear in the query we can infer
-# the product WITHOUT asking the user — avoids false clarifications
-# on general Copilot / Microsoft questions.
+# General Microsoft / Copilot / business queries always map to
+# copilot_studio so they never trigger false clarifications.
 
 PRODUCT_KEYWORDS: Dict[str, List[str]] = {
     "copilot_studio": [
@@ -34,6 +33,11 @@ PRODUCT_KEYWORDS: Dict[str, List[str]] = {
         "licensing", "license", "m365", "microsoft 365",
         "teams", "outlook", "sharepoint", "power platform",
         "power automate", "power apps", "power bi",
+        "business developer", "business user", "business development",
+        "lab", "labs", "hands-on", "exercise", "tutorial",
+        "learning path", "training", "workshop", "scenario",
+        "relevant", "recommend", "best for", "get started",
+        "beginner", "intermediate", "advanced",
     ],
     "azure_bot_service": [
         "azure bot", "bot service", "bot framework",
@@ -46,13 +50,37 @@ PRODUCT_KEYWORDS: Dict[str, List[str]] = {
 }
 
 
+# ============================================================
+# 🔹 Lab query detection
+# ============================================================
+# Detects when the user is asking specifically about labs,
+# exercises, learning paths, or recommendations — so we can
+# apply a lab-specific retrieval boost and answer strategy.
+
+LAB_QUERY_KEYWORDS = [
+    "lab", "labs", "exercise", "exercises", "hands-on",
+    "tutorial", "tutorials", "learning path", "training",
+    "workshop", "scenario", "practice", "project",
+    "relevant", "recommend", "best lab", "which lab",
+    "get started", "where do i start", "beginner lab",
+    "what should i learn", "what labs", "most relevant",
+]
+
+
+def is_lab_query(query: str) -> bool:
+    """Returns True if the query is asking about labs or learning resources."""
+    q = query.lower()
+    return any(kw in q for kw in LAB_QUERY_KEYWORDS)
+
+
+# ============================================================
+# 🔹 Product inference
+# ============================================================
+
 def infer_product_from_query(query: str) -> Optional[str]:
     """
     Scan the query for product-specific keywords.
     Returns the inferred product name or None if ambiguous.
-
-    Scoring: count keyword hits per product, return the winner
-    only if it scores strictly higher than all others.
     """
     q = query.lower()
     scores: Dict[str, int] = {p: 0 for p in PRODUCT_KEYWORDS}
@@ -62,10 +90,8 @@ def infer_product_from_query(query: str) -> Optional[str]:
             if kw in q:
                 scores[product] += 1
 
-    # Sort by score descending
     ranked = sorted(scores.items(), key=lambda x: x[1], reverse=True)
 
-    # Only infer if top product has a clear lead and at least 1 hit
     if ranked[0][1] > 0 and (len(ranked) < 2 or ranked[0][1] > ranked[1][1]):
         return ranked[0][0]
 
@@ -145,8 +171,6 @@ def rerank_results(base_hits: List[Dict], kg_scores: Dict[str, Dict]) -> List[Di
 # ============================================================
 # 🔹 Ambiguity Detection
 # ============================================================
-# Threshold raised from 0.65 → 0.75 to reduce false clarifications.
-# A product needs 75% of top results to be considered dominant.
 
 def detect_ambiguity(results: List[Dict]):
 
@@ -160,11 +184,9 @@ def detect_ambiguity(results: List[Dict]):
 
     dominant_product, freq = counts.most_common(1)[0]
 
-    # Strong dominance — no clarification needed
     if freq / total > 0.75:
         return False, dominant_product
 
-    # Multiple products with no clear winner
     if len(counts) >= 2:
         return True, list(counts.keys())
 
@@ -172,8 +194,83 @@ def detect_ambiguity(results: List[Dict]):
 
 
 # ============================================================
+# 🔹 Fallback Search
+# ============================================================
+# Called when the primary search returns empty or all results
+# score below the quality threshold.
+# Strategy:
+#   1. Broaden the search — remove product filter, raise top_k
+#   2. Re-run vector search with a simplified query
+#   3. If still empty → return structured "no results" mode
+#      so answer_generator can give a helpful response
+#      instead of a dead "I don't have info" answer.
+
+FALLBACK_SCORE_THRESHOLD = 0.30   # below this = weak result
+
+
+def _simplify_query(query: str) -> str:
+    """
+    Strip filler words to create a shorter fallback query.
+    E.g. 'Which labs are most relevant for me as a business developer'
+         → 'labs business developer Microsoft Copilot'
+    """
+    stopwords = {
+        "which", "what", "are", "the", "most", "for", "me", "as", "a",
+        "an", "is", "i", "my", "can", "you", "do", "have", "using",
+        "with", "in", "on", "of", "to", "and", "or", "at", "be",
+        "this", "that", "these", "those", "how", "should", "would",
+        "could", "please", "tell", "give", "show", "find",
+    }
+    words   = query.lower().split()
+    cleaned = [w for w in words if w not in stopwords]
+    return " ".join(cleaned) if cleaned else query
+
+
+def fallback_search(query: str, persona: Optional[str], top_k: int) -> dict:
+    """
+    Broadened search with no product filter and a simplified query.
+    Returns unified_search-style response dict.
+    """
+    simplified = _simplify_query(query)
+    print(f"🔄 Fallback search: '{simplified}'")
+
+    results = vector_search(
+        query          = simplified,
+        top_k          = top_k * 4,    # cast a wider net
+        persona_filter = persona if persona and persona != "All" else None,
+        product_filter = None,          # no product filter in fallback
+    )
+
+    if not results:
+        return {"mode": "no_results", "query": query}
+
+    # Accept any result above a lower threshold
+    good = [r for r in results if r.get("score", 0) >= FALLBACK_SCORE_THRESHOLD]
+
+    if not good:
+        return {"mode": "no_results", "query": query}
+
+    # Rerank and return
+    seed_ids  = [r["chunk_id"] for r in good[:5]]
+    kg_scores = kg_expand(seed_ids)
+    ranked    = rerank_results(good, kg_scores)
+    final     = rerank(query, ranked, top_k=top_k)
+
+    return {
+        "mode":       "answer",
+        "results":    final,
+        "is_fallback": True,   # flag so answer_generator can note lower confidence
+    }
+
+
+# ============================================================
 # 🔹 Unified Search
 # ============================================================
+
+# Results with ALL scores below this threshold are treated as
+# weak — triggers fallback rather than generating a bad answer.
+QUALITY_THRESHOLD = 0.35
+
 
 def unified_search(
     query:   str,
@@ -183,48 +280,69 @@ def unified_search(
 ):
     print("🔎 Running global vector search...")
 
-    # ── Step 1: Hard product filter from UI selectbox ────────────────
-    manual_product = product if product and product != "All" else None
+    # ── Step 1: Detect if this is a lab/recommendation query ─────────
+    lab_query = is_lab_query(query)
+    if lab_query:
+        print("📚 Lab query detected — boosting lab content retrieval")
 
-    # ── Step 2: Keyword-based product inference from query ───────────
-    # Runs even when product="All" so general Copilot/M365 questions
-    # don't falsely trigger guided clarification.
+    # ── Step 2: Hard product filter from UI selectbox ─────────────────
+    manual_product  = product if product and product != "All" else None
+
+    # ── Step 3: Keyword-based product inference ───────────────────────
     inferred_product = None
     if not manual_product:
         inferred_product = infer_product_from_query(query)
         if inferred_product:
             print(f"🧠 Product inferred from query: {inferred_product}")
 
-    # Effective product to filter on (manual takes priority over inferred)
     effective_product = manual_product or inferred_product
+
+    # ── Step 4: Primary vector search ────────────────────────────────
+    # For lab queries, raise top_k to surface more lab chunks
+    search_top_k = top_k * 5 if lab_query else top_k * 3
 
     vector_results = vector_search(
         query          = query,
-        top_k          = 30,
+        top_k          = search_top_k,
         persona_filter = persona if persona and persona != "All" else None,
         product_filter = effective_product,
     )
 
+    # ── Step 5: Empty result → fallback immediately ───────────────────
     if not vector_results:
-        return {"mode": "empty"}
+        print("⚠️ No results — running fallback search")
+        return fallback_search(query, persona, top_k)
 
-    # ── Step 3: If product is known (manual or inferred) → skip ambiguity
+    # ── Step 6: Quality check — if all results are weak → fallback ────
+    top_score = max(r.get("score", 0) for r in vector_results)
+    if top_score < QUALITY_THRESHOLD:
+        print(f"⚠️ Weak results (top score: {top_score:.3f}) — running fallback")
+        fallback = fallback_search(query, persona, top_k)
+        # If fallback found something better, use it
+        if fallback.get("mode") == "answer":
+            fallback_top = max(r.get("score", 0) for r in fallback["results"])
+            if fallback_top > top_score:
+                return fallback
+        # Otherwise continue with original weak results
+        # (still better than nothing — answer_generator will handle tone)
+
+    # ── Step 7: If product is known → skip ambiguity check ───────────
     if effective_product:
-        seed_ids      = [r["chunk_id"] for r in vector_results[:5]]
-        kg_scores     = kg_expand(seed_ids)
+        seed_ids        = [r["chunk_id"] for r in vector_results[:5]]
+        kg_scores       = kg_expand(seed_ids)
         metadata_ranked = rerank_results(vector_results, kg_scores)
-        final_results = rerank(query, metadata_ranked, top_k=top_k)
+        final_results   = rerank(query, metadata_ranked, top_k=top_k)
 
         return {
             "mode":    "answer",
             "results": final_results,
         }
 
-    # ── Step 4: No product known → run ambiguity detection ───────────
+    # ── Step 8: No product known → ambiguity detection ───────────────
     ambiguous, info = detect_ambiguity(vector_results)
 
     if ambiguous:
-        print("⚠️ Ambiguous query detected. Returning preview + options.")
+        print("⚠️ Ambiguous query — returning preview + options")
         preview_chunks = rerank(query, vector_results, top_k=5)
         return {
             "mode":           "guided_clarification",
@@ -232,15 +350,15 @@ def unified_search(
             "options":        info,
         }
 
-    # ── Step 5: Single dominant product path ─────────────────────────
+    # ── Step 9: Single dominant product ──────────────────────────────
     dominant_product = info
-    print(f"🎯 Dominant product detected: {dominant_product}")
+    print(f"🎯 Dominant product: {dominant_product}")
 
-    filtered      = [r for r in vector_results if r["product"] == dominant_product]
-    seed_ids      = [r["chunk_id"] for r in filtered[:5]]
-    kg_scores     = kg_expand(seed_ids)
+    filtered        = [r for r in vector_results if r["product"] == dominant_product]
+    seed_ids        = [r["chunk_id"] for r in filtered[:5]]
+    kg_scores       = kg_expand(seed_ids)
     metadata_ranked = rerank_results(filtered, kg_scores)
-    final_results = rerank(query, metadata_ranked, top_k=top_k)
+    final_results   = rerank(query, metadata_ranked, top_k=top_k)
 
     return {
         "mode":    "answer",

@@ -16,7 +16,7 @@ NEO4J_URI = "bolt://localhost:7687"
 NEO4J_USER = "neo4j"
 NEO4J_PASSWORD = "Neer@j080105"
 
-MODEL_NAME = "gpt-5.2"
+MODEL_NAME = "gpt-4o-mini"
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 MINILM_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
