@@ -261,3 +261,213 @@ Do not suggest labs or tutorials.
         answer = f"I found relevant information across multiple products. Please select one: {', '.join(product_options)}"
 
     return {"answer": answer, "sources": sources}
+
+
+# ── Lab recommendation answer generator ──────────────────────────────────────
+# Called specifically when the query is asking about labs, learning paths,
+# or recommendations. Uses a completely different prompt structure that
+# produces a ranked, actionable list with context for each lab.
+
+def generate_lab_recommendation_answer(
+    query:           str,
+    results:         list[dict],
+    session_context: dict | None = None,
+    persona:         str = "All",
+    product:         str = "All",
+) -> dict:
+    """
+    Specialised generator for lab/learning recommendation queries.
+    Produces a structured learning path grounded in retrieved KB content:
+      - Introduction explaining the goal (enterprise AI architect path)
+      - 4 labs ordered Foundation → AI Assistant → Agent Architecture → Enterprise
+      - Each lab: name, what you learn, tools used, why it matters
+      - "How labs are connected" section using KG topic/super-topic relationships
+      - Final outcome describing what the user can build after completion
+    """
+    ctx          = session_context or {}
+    summary      = ctx.get("summary", "")
+    recent_turns = ctx.get("recent_turns", [])
+
+    history_block = _build_history_block(recent_turns)
+    context_block = _build_context_block(results)
+    sources       = _extract_sources(results)
+
+    persona_context = {
+        "NoCode":        "The user is non-technical, likely a business analyst or manager who wants to use Copilot tools without writing code.",
+        "LowCode":       "The user can handle basic configuration and Power Platform tools but avoids heavy development.",
+        "ProDeveloper":  "The user is a developer comfortable with APIs, code, and technical implementation.",
+        "Admin":         "The user is an IT admin focused on governance, deployment, and tenant management.",
+        "Architect":     "The user is designing enterprise-scale solutions and needs architectural guidance.",
+        "All":           "The user is a business professional learning Microsoft Copilot tools.",
+    }.get(persona, "The user is a business professional learning Microsoft Copilot tools.")
+
+    product_context = {
+        "copilot_studio":    "Microsoft Copilot Studio",
+        "azure_bot_service": "Azure Bot Service",
+        "autogen":           "AutoGen",
+        "All":               "Microsoft Copilot Studio and related Microsoft tools",
+    }.get(product, product)
+
+    # Build a KG metadata block from retrieved chunk fields so the LLM
+    # can reference real topics, super-topics, and intents from Neo4j.
+    kg_context_lines = []
+    for i, r in enumerate(results, 1):
+        topic       = r.get("canonical_topic") or r.get("topic", "")
+        super_topic = r.get("super_topic", "")
+        intent      = r.get("intent", "")
+        product_tag = r.get("product", "")
+        kg_context_lines.append(
+            f"[Chunk {i}] Topic: {topic} | SuperTopic: {super_topic} "
+            f"| Intent: {intent} | Product: {product_tag}"
+        )
+    kg_metadata_block = "\n".join(kg_context_lines)
+
+    system_prompt = f"""
+You are a senior Microsoft AI solutions architect and learning advisor.
+Your job is to recommend ONLY the labs available in the knowledge base below.
+Do NOT recommend generic Microsoft Learn paths or external courses not present
+in the retrieved content.
+
+User profile: {persona_context}
+Product focus: {product_context}
+
+{"--- What this user has already covered ---" if summary else ""}
+{summary}
+
+{"--- Recent conversation ---" if history_block else ""}
+{history_block}
+
+--- Knowledge Graph metadata (topics and relationships from Neo4j) ---
+Use this to explain how labs are connected through shared topics and super-topics.
+{kg_metadata_block}
+
+--- Full lab content from the knowledge base (ONLY use these as your lab sources) ---
+{context_block}
+
+YOUR RESPONSE MUST FOLLOW THIS EXACT STRUCTURE — no deviations:
+
+**Introduction**
+3-4 sentences explaining the goal of this learning path: becoming an enterprise
+AI solutions architect focused on building AI assistants. Mention the progression
+from foundation concepts to advanced architecture. Reference the user's profile.
+
+**Recommended Labs (Structured Learning Path)**
+
+For each lab (recommend 4 labs, ordered beginner → advanced), use this format:
+
+**Lab [N] – [Stage: Foundation / AI Assistant Development / Agent Architecture / Enterprise Integration]**
+- **Lab Name:** [Exact name extracted from the knowledge base content above]
+- **What you learn:** [2-3 specific skills or concepts from the lab content]
+- **Tools used:** [Specific tools extracted from the chunk text, e.g. Copilot Studio, Azure OpenAI, Power Automate, Dataverse, Bot Framework, Teams — never guess]
+- **Why it matters:** [1-2 sentences tying this lab to enterprise AI assistant development and the user's specific profile]
+
+**How These Labs Are Connected**
+4-5 sentences explaining relationships between the labs.
+Use the SuperTopics and Topics from the Knowledge Graph metadata above to show
+how concepts build on each other. For example, reference which SuperTopics
+appear across multiple labs, which tools are shared, and how completing
+one lab prepares the user for the next. Be specific — name the actual topics.
+
+**Final Outcome**
+2-3 sentences describing exactly what the learner will be able to design and
+build after completing all labs. Be specific to enterprise AI assistant
+development — not generic Microsoft marketing language.
+
+CRITICAL RULES:
+- ONLY use lab names found in the knowledge base content. Never invent names.
+- Extract tool names directly from chunk text — do not guess or assume.
+- Use KG metadata (SuperTopic, Topic, Intent) to explain lab connections.
+- If fewer than 4 distinct labs appear in the context, use what is available
+  and note the progression still applies within those labs.
+- Never say "I don't have specific information" — work with what is retrieved.
+- Tone: senior expert advisor giving a structured, premium recommendation.
+"""
+
+    try:
+        resp = _client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user",   "content": query},
+            ],
+            temperature=0.4,
+        )
+        answer = resp.choices[0].message.content.strip()
+    except Exception as e:
+        answer = f"Sorry, I encountered an error: {e}"
+
+    return {"answer": answer, "sources": sources}
+
+
+# ── No-results fallback answer ────────────────────────────────────────────────
+# Called when unified_search returns mode="no_results".
+# Instead of a dead "I don't have info" response, uses LLM knowledge
+# to give a genuinely helpful answer and flags that it is not from
+# the knowledge base.
+
+def generate_no_results_answer(
+    query:           str,
+    session_context: dict | None = None,
+    persona:         str = "All",
+    product:         str = "All",
+) -> dict:
+    """
+    Fallback generator when retrieval found nothing relevant.
+    Uses LLM general knowledge but clearly flags it as such.
+    """
+    ctx     = session_context or {}
+    summary = ctx.get("summary", "")
+
+    persona_map = {
+        "NoCode":       "a non-technical business user",
+        "LowCode":      "a low-code/no-code practitioner",
+        "ProDeveloper": "an experienced developer",
+        "Admin":        "an IT administrator",
+        "Architect":    "a solution architect",
+        "All":          "a business professional",
+    }
+    persona_desc = persona_map.get(persona, "a business professional")
+
+    product_map = {
+        "copilot_studio":    "Microsoft Copilot Studio",
+        "azure_bot_service": "Azure Bot Service",
+        "autogen":           "AutoGen",
+        "All":               "Microsoft Copilot tools",
+    }
+    product_name = product_map.get(product, "Microsoft Copilot tools")
+
+    system_prompt = f"""
+You are a senior Microsoft Copilot expert.
+The user is {persona_desc} asking about {product_name}.
+
+{"--- Previous context ---" if summary else ""}
+{summary}
+
+The knowledge base did not return a strong match for this query.
+Answer using your expert knowledge of Microsoft Copilot, Microsoft Learn,
+and Microsoft's official documentation.
+
+Rules:
+- Be specific and actionable — never say "I don't have information".
+- Start your answer with the most useful information first.
+- If recommending labs or resources, name them specifically
+  (e.g. "Microsoft Learn path: Get started with Copilot Studio").
+- Keep the answer concise and relevant to {persona_desc}.
+- End with: "Note: This answer is based on general Microsoft documentation.
+  For the most current details, visit learn.microsoft.com."
+"""
+
+    try:
+        resp = _client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user",   "content": query},
+            ],
+            temperature=0.4,
+        )
+        answer = resp.choices[0].message.content.strip()
+    except Exception as e:
+        answer = f"Sorry, I encountered an error: {e}"
+
+    return {"answer": answer, "sources": []}

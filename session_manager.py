@@ -11,7 +11,8 @@ Key schema (all under session:{sid}:*)
   last_lab      — Last lab text shown (enables !expand / scenario flow)
   last_question — Question that triggered the last lab
 
-Sessions have NO TTL — they persist until logout() is explicitly called.
+Sessions expire after 7 days of inactivity — the TTL is reset on every
+save_turn() call so active sessions never expire mid-conversation.
 Falls back to an in-memory dict if Redis is unavailable.
 """
 
@@ -27,8 +28,9 @@ import redis as _redis
 REDIS_HOST = os.getenv("REDIS_HOST", "localhost")
 REDIS_PORT = int(os.getenv("REDIS_PORT", 6379))
 REDIS_PASS = os.getenv("REDIS_PASSWORD", None)
-MAX_RAW_TURNS = 5          # raw turns kept per session
-SUMMARY_TURN_CAP  = 20     # max turns fed to summary LLM
+MAX_RAW_TURNS    = 5       # raw turns kept per session
+SUMMARY_TURN_CAP = 20      # max turns fed to summary LLM
+SESSION_TTL      = 7 * 24 * 60 * 60   # 7 days in seconds — reset on every write
 
 _client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
@@ -76,6 +78,16 @@ def _now() -> str:
     return datetime.now(timezone.utc).isoformat()
 
 
+def _refresh_ttl(sid: str) -> None:
+    """Reset the 7-day expiry on all keys for this session.
+    Called on create and every save_turn so active sessions never expire.
+    Inactive sessions (no activity for 7 days) are cleaned up automatically.
+    """
+    if _r:
+        for field in ("meta", "summary", "turns", "last_lab", "last_question"):
+            _r.expire(_k(sid, field), SESSION_TTL)
+
+
 # ── Public API ────────────────────────────────────────────────────────────────
 
 def create_session(user: str = "anonymous") -> str:
@@ -90,6 +102,7 @@ def create_session(user: str = "anonymous") -> str:
         _r.set(_k(sid, "summary"),       "")
         _r.set(_k(sid, "last_lab"),      "")
         _r.set(_k(sid, "last_question"), "")
+        _refresh_ttl(sid)   # start the 7-day clock
     else:
         _mem[sid] = _empty(user)
 
@@ -187,6 +200,7 @@ def save_turn(
 
     if _r:
         _r.set(_k(sid, "summary"), new_summary)
+        _refresh_ttl(sid)   # reset 7-day clock on every activity
     else:
         _mem[sid]["summary"] = new_summary
 
