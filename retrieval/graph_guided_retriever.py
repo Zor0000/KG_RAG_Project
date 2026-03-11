@@ -23,14 +23,13 @@ MILVUS_COLLECTION = "project_chunks_v5"
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
-MODEL_NAME = "gpt-4o-mini"
+LLM_MODEL = "gpt-5.2"
+
+VECTOR_TOP_K = 80
+RERANK_TOP_K = 8
+TOPIC_LIMIT = 40
 
 MINILM_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
-
-TOPIC_DETECTION_K = 5
-EXPANSION_LIMIT = 50
-VECTOR_TOP_K = 40
-RERANK_TOP_K = 10
 
 
 # ============================================================
@@ -60,9 +59,24 @@ def extract_query_structure(query: str) -> Dict:
 Extract structured signals from the query.
 
 Return JSON with:
-- intent (what-is, how-to, why, reference, troubleshooting, comparison or null)
-- persona (NoCode, LowCode, ProDeveloper, Admin, Architect or null)
-- keywords (array)
+
+intent: one of
+- how-to
+- troubleshooting
+- reference
+- comparison
+- explanation
+
+persona: one of
+- NoCode
+- LowCode
+- ProDeveloper
+- Admin
+- Architect
+
+product: if mentioned
+
+keywords: array
 
 Query:
 {query}
@@ -71,7 +85,7 @@ Return ONLY JSON.
 """
 
     response = openai_client.chat.completions.create(
-        model=MODEL_NAME,
+        model=LLM_MODEL,
         temperature=0,
         messages=[
             {"role": "system", "content": "You extract structured metadata."},
@@ -82,119 +96,125 @@ Return ONLY JSON.
     raw = response.choices[0].message.content.strip()
 
     try:
-        data = json.loads(raw)
+        return json.loads(raw)
     except:
-        data = {"intent": None, "persona": None, "keywords": []}
-
-    print("\n🧠 Query Structure:", data)
-
-    return data
+        return {
+            "intent": None,
+            "persona": None,
+            "product": None,
+            "keywords": []
+        }
 
 
 # ============================================================
-# STEP 2 — Fetch All Topics
+# STEP 2 — KG Topic Routing
 # ============================================================
 
-def fetch_all_topics():
+def kg_topic_routing(intent, persona, product):
 
     with driver.session(database=NEO4J_DB) as session:
 
-        res = session.run("""
+        query = """
         MATCH (t:Topic)
-        RETURN t.name AS name
-        """)
 
-        topics = [r["name"] for r in res]
+        OPTIONAL MATCH (t)<-[:SUPPORTS_INTENT]-(i:Intent)
+        OPTIONAL MATCH (t)<-[:TARGETS_PERSONA]-(p:Persona)
+        OPTIONAL MATCH (t)<-[:USED_IN_PRODUCT]-(prod:Product)
+
+        WHERE
+            ($intent IS NULL OR i.name = $intent)
+        AND ($persona IS NULL OR p.name = $persona)
+        AND ($product IS NULL OR prod.name = $product)
+
+        RETURN DISTINCT t.name AS topic
+        LIMIT $limit
+        """
+
+        res = session.run(query, {
+            "intent": intent,
+            "persona": persona,
+            "product": product,
+            "limit": TOPIC_LIMIT
+        })
+
+        topics = [r["topic"] for r in res]
+
+    print("\n🎯 Routed Topics:", topics[:10])
 
     return topics
 
 
 # ============================================================
-# STEP 3 — Detect Topics
-# ============================================================
-
-def detect_topics(query: str):
-
-    topics = fetch_all_topics()
-
-    topic_emb = minilm.encode(topics, convert_to_tensor=True)
-    query_emb = minilm.encode(query, convert_to_tensor=True)
-
-    scores = util.cos_sim(query_emb, topic_emb)[0]
-
-    top_idx = scores.topk(TOPIC_DETECTION_K).indices
-
-    detected = [topics[i] for i in top_idx]
-
-    print("\n🔎 Detected Topics:", detected)
-
-    return detected
-
-
-# ============================================================
-# STEP 4 — Expand Topics
+# STEP 3 — Topic Expansion
 # ============================================================
 
 def expand_topics(seed_topics):
+
+    if not seed_topics:
+        return []
 
     with driver.session(database=NEO4J_DB) as session:
 
         res = session.run("""
         MATCH (t:Topic)
         WHERE t.name IN $topics
-        MATCH (t)-[:HAS_SUPER_TOPIC]->(s:SuperTopic)
-        MATCH (s)<-[:HAS_SUPER_TOPIC]-(related:Topic)
-        RETURN DISTINCT related.name AS topic
+
+        OPTIONAL MATCH (t)-[:RELATED_TO]-(related:Topic)
+        OPTIONAL MATCH (super:SuperTopic)-[:HAS_TOPIC]->(t)
+
+        RETURN DISTINCT
+        coalesce(related.name, t.name) AS topic
         LIMIT $limit
         """,
-        {"topics": seed_topics, "limit": EXPANSION_LIMIT}
-        )
+        {
+            "topics": seed_topics,
+            "limit": TOPIC_LIMIT
+        })
 
         expanded = [r["topic"] for r in res]
 
-    if not expanded:
-        expanded = seed_topics
-
     expanded = list(set(seed_topics + expanded))
 
-    print("\n🌐 Expanded Topics:", expanded)
+    print("\n🌐 Expanded Topics:", expanded[:10])
 
     return expanded
 
 
 # ============================================================
-# STEP 5 — OpenAI Embedding
+# STEP 4 — Query Embedding
 # ============================================================
 
 def embed_query(query):
 
-    response = openai_client.embeddings.create(
+    res = openai_client.embeddings.create(
         model="text-embedding-3-large",
         input=query
     )
 
-    return response.data[0].embedding
+    return res.data[0].embedding
 
 
 # ============================================================
-# STEP 6 — Milvus Search
+# STEP 5 — Topic Constrained Vector Search
 # ============================================================
 
-def search_milvus(query, topics):
+def vector_search(query, allowed_topics):
 
-    if not topics:
-        return []
+    vector = embed_query(query)
 
-    query_vector = embed_query(query)
+    expr = None
 
-    expr = f'canonical_topic in {topics}'
-
-    print("\n📦 Milvus Filter:", expr)
+    if allowed_topics:
+        topic_list = ",".join([f'"{t}"' for t in allowed_topics])
+        expr = f'canonical_topic in [{topic_list}]'
 
     results = collection.search(
-        data=[query_vector],
+        data=[vector],
         anns_field="embedding",
-        param={"metric_type": "COSINE", "params": {"ef": 100}},
+        param={
+            "metric_type": "COSINE",
+            "params": {"ef": 200}
+        },
         limit=VECTOR_TOP_K,
         expr=expr,
         output_fields=[
@@ -211,23 +231,23 @@ def search_milvus(query, topics):
 
     for hit in results[0]:
 
-        entity = hit.entity
+        e = hit.entity
 
         hits.append({
-            "chunk_id": entity.get("chunk_id"),
-            "text": entity.get("text"),
-            "topic": entity.get("canonical_topic"),
-            "persona": entity.get("persona"),
-            "intent": entity.get("intent"),
-            "product": entity.get("product"),
-            "score": hit.distance
+            "chunk_id": e.get("chunk_id"),
+            "text": e.get("text"),
+            "topic": e.get("canonical_topic"),
+            "persona": e.get("persona"),
+            "intent": e.get("intent"),
+            "product": e.get("product"),
+            "vector_score": hit.distance
         })
 
     return hits
 
 
 # ============================================================
-# STEP 7 — Reranking
+# STEP 6 — Rerank
 # ============================================================
 
 def rerank(query, chunks):
@@ -237,15 +257,19 @@ def rerank(query, chunks):
 
     texts = [c["text"] for c in chunks]
 
-    query_emb = minilm.encode(query, convert_to_tensor=True)
-    doc_emb = minilm.encode(texts, convert_to_tensor=True)
+    q_emb = minilm.encode(query, convert_to_tensor=True)
+    d_emb = minilm.encode(texts, convert_to_tensor=True)
 
-    scores = util.cos_sim(query_emb, doc_emb)[0]
+    scores = util.cos_sim(q_emb, d_emb)[0]
 
-    for i, score in enumerate(scores):
-        chunks[i]["rerank_score"] = float(score)
+    for i, s in enumerate(scores):
 
-    chunks.sort(key=lambda x: x["rerank_score"], reverse=True)
+        chunks[i]["rerank_score"] = float(s)
+
+    chunks.sort(
+        key=lambda x: x["rerank_score"],
+        reverse=True
+    )
 
     return chunks[:RERANK_TOP_K]
 
@@ -256,51 +280,100 @@ def rerank(query, chunks):
 
 def graph_guided_search(query, persona="All", product="All", top_k=5):
 
+    print("\n==============================")
+    print("🔎 QUERY:", query)
+    print("==============================")
+
     structure = extract_query_structure(query)
 
-    detected_topics = detect_topics(query)
+    intent = structure.get("intent")
 
-    expanded_topics = expand_topics(detected_topics)
+    if persona == "All":
+        persona = structure.get("persona")
 
-    milvus_hits = search_milvus(query, expanded_topics)
+    if product == "All":
+        product = structure.get("product")
 
-    # -----------------------------
-    # Persona Filter
-    # -----------------------------
+    seed_topics = kg_topic_routing(intent, persona, product)
 
-    if persona != "All":
-        milvus_hits = [
-            c for c in milvus_hits
-            if c.get("persona") == persona
-        ]
+    expanded_topics = expand_topics(seed_topics)
 
-    # -----------------------------
-    # Product Filter
-    # -----------------------------
+    chunks = vector_search(query, expanded_topics)
 
-    if product != "All":
-        milvus_hits = [
-            c for c in milvus_hits
-            if c.get("product") == product
-        ]
-
-    reranked = rerank(query, milvus_hits)
-
-    # -----------------------------
-    # Deduplicate topics
-    # -----------------------------
-
-    seen = set()
-    unique = []
-
-    for r in reranked:
-        if r["topic"] not in seen:
-            unique.append(r)
-            seen.add(r["topic"])
+    results = rerank(query, chunks)
 
     return {
-        "results": unique[:top_k],
-        "structure": structure,
-        "detected_topics": detected_topics,
-        "expanded_topics": expanded_topics
+        "results": results[:top_k],
+        "topics": expanded_topics,
+        "structure": structure
     }
+
+
+# ============================================================
+# ANSWER GENERATION
+# ============================================================
+
+def retrieve_answer(question):
+
+    retrieval = graph_guided_search(question)
+
+    if not retrieval["results"]:
+        return {"answer": "No relevant information found."}
+
+    context = "\n\n".join(
+        [r["text"] for r in retrieval["results"]]
+    )
+
+    prompt = f"""
+Use the context to answer the question.
+
+Context:
+{context}
+
+Question:
+{question}
+
+Answer clearly.
+"""
+
+    response = openai_client.chat.completions.create(
+        model=LLM_MODEL,
+        temperature=0,
+        messages=[
+            {"role": "system", "content": "You are a Copilot Studio expert."},
+            {"role": "user", "content": prompt}
+        ]
+    )
+
+    answer = response.choices[0].message.content
+
+    return {
+        "answer": answer,
+        "sources": retrieval["results"],
+        "topics": retrieval["topics"],
+        "structure": retrieval["structure"]
+    }
+
+
+# ============================================================
+# CLI TEST
+# ============================================================
+
+if __name__ == "__main__":
+
+    while True:
+
+        q = input("\n💬 Ask (exit to quit): ")
+
+        if q.lower() == "exit":
+            break
+
+        res = retrieve_answer(q)
+
+        print("\n🧠 Answer:\n")
+        print(res["answer"])
+
+        print("\n📚 Sources:\n")
+
+        for r in res["sources"]:
+            print("-", r["topic"])
