@@ -2,9 +2,9 @@
 openai>=1.30.0
 tiktoken>=0.7.0
 
-# Vector Database (Milvus)
-pymilvus>=2.4.0
-langchain-milvus>=0.1.0
+# Vector Database (Milvus) — DISABLED, migrating to pgvector
+# pymilvus>=2.4.0
+# langchain-milvus>=0.1.0
 
 # LangChain Ecosystem
 langchain>=0.2.0
