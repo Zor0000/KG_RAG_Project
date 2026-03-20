@@ -9,7 +9,7 @@ from retrieval.graph_guided_retriever import retrieve_answer
 app = FastAPI(
     title="GraphRAG API",
     version="1.0",
-    description="Graph-guided RAG with Milvus + Neo4j"
+    description="Graph-guided RAG with pgvector + Neo4j"
 )
 
 

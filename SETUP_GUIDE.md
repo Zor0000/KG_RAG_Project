@@ -23,7 +23,7 @@ OPENAI_API_KEY="your-openai-api-key-here"
 
 ## 🐳 Step 2: Start the Core Infrastructure
 
-The project uses Docker Compose to run **PostgreSQL, Redis, and Milvus**. 
+The project uses Docker Compose to run **PostgreSQL and Redis**. Vector search uses **pgvector** (PostgreSQL extension).
 
 Run the following command from the project root:
 ```bash
@@ -63,7 +63,7 @@ pip install -r requirements.txt
 
 ## 🔄 Step 4: Run Data Ingestion (First Time Run)
 
-If you need to populate the Milvus Vector Database and the Neo4j Knowledge Graph with data, run the ingestion pipeline.
+If you need to populate the pgvector Vector Database and the Neo4j Knowledge Graph with data, run the ingestion pipeline.
 
 *(Note: You can tweak the target URLs and product config directly inside `ingestion/run_pipeline.py` under the `PRODUCT CONFIG` section).*
 

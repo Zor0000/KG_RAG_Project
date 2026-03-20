@@ -16,7 +16,7 @@ def clean_topic(title: str) -> str:
     # Remove excessive whitespace
     title = re.sub(r"\s+", " ", title).strip()
 
-    # Cap length to prevent Milvus overflow
+    # Cap length to prevent overflow
     return title[:300]
 # ============================================================
 # 🔹 CONFIG

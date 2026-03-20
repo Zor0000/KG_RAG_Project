@@ -7,7 +7,7 @@ from typing import List, Dict
 from neo4j import GraphDatabase
 from openai import OpenAI
 from sentence_transformers import SentenceTransformer, util
-from pymilvus import connections, Collection
+# from pymilvus import connections, Collection  # DISABLED — migrating to pgvector
 
 
 # ============================================================
@@ -19,7 +19,7 @@ NEO4J_USER = "neo4j"
 NEO4J_PASSWORD = "Neer@j080105"
 NEO4J_DB = "copilot-kg-v6"
 
-MILVUS_COLLECTION = "project_chunks_v5"
+# MILVUS_COLLECTION = "project_chunks_v5"  # DISABLED — migrating to pgvector
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
@@ -45,8 +45,8 @@ openai_client = OpenAI(api_key=OPENAI_API_KEY)
 
 minilm = SentenceTransformer(MINILM_MODEL)
 
-connections.connect("default", host="localhost", port="19530")
-collection = Collection(MILVUS_COLLECTION)
+# connections.connect("default", host="localhost", port="19530")  # DISABLED — migrating to pgvector
+# collection = Collection(MILVUS_COLLECTION)  # DISABLED — migrating to pgvector
 
 
 # ============================================================
@@ -200,50 +200,55 @@ def embed_query(query):
 
 def vector_search(query, allowed_topics):
 
+    # TODO: Replace with pgvector search implementation
+    # The Milvus-based vector search below has been commented out.
+
     vector = embed_query(query)
 
-    expr = None
+    # expr = None
+    #
+    # if allowed_topics:
+    #     topic_list = ",".join([f'"{ t}"' for t in allowed_topics])
+    #     expr = f'canonical_topic in [{topic_list}]'
+    #
+    # results = collection.search(
+    #     data=[vector],
+    #     anns_field="embedding",
+    #     param={
+    #         "metric_type": "COSINE",
+    #         "params": {"ef": 200}
+    #     },
+    #     limit=VECTOR_TOP_K,
+    #     expr=expr,
+    #     output_fields=[
+    #         "chunk_id",
+    #         "text",
+    #         "canonical_topic",
+    #         "persona",
+    #         "intent",
+    #         "product"
+    #     ]
+    # )
+    #
+    # hits = []
+    #
+    # for hit in results[0]:
+    #
+    #     e = hit.entity
+    #
+    #     hits.append({
+    #         "chunk_id": e.get("chunk_id"),
+    #         "text": e.get("text"),
+    #         "topic": e.get("canonical_topic"),
+    #         "persona": e.get("persona"),
+    #         "intent": e.get("intent"),
+    #         "product": e.get("product"),
+    #         "vector_score": hit.distance
+    #     })
+    #
+    # return hits
 
-    if allowed_topics:
-        topic_list = ",".join([f'"{t}"' for t in allowed_topics])
-        expr = f'canonical_topic in [{topic_list}]'
-
-    results = collection.search(
-        data=[vector],
-        anns_field="embedding",
-        param={
-            "metric_type": "COSINE",
-            "params": {"ef": 200}
-        },
-        limit=VECTOR_TOP_K,
-        expr=expr,
-        output_fields=[
-            "chunk_id",
-            "text",
-            "canonical_topic",
-            "persona",
-            "intent",
-            "product"
-        ]
-    )
-
-    hits = []
-
-    for hit in results[0]:
-
-        e = hit.entity
-
-        hits.append({
-            "chunk_id": e.get("chunk_id"),
-            "text": e.get("text"),
-            "topic": e.get("canonical_topic"),
-            "persona": e.get("persona"),
-            "intent": e.get("intent"),
-            "product": e.get("product"),
-            "vector_score": hit.distance
-        })
-
-    return hits
+    return []  # Temporary: return empty until pgvector is wired in
 
 
 # ============================================================
